@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+
+# misc
+.DS_Store
+*.pem
+
+# local env vars (never commit values)
+.env.local
+.env.*.local
+.env
+.env.local
