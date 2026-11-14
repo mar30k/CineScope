@@ -1,3 +1,5 @@
+import type { MovieSearchResponse, MovieDetails, RecommendationResponse } from '../types'
+
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 function url(path: string, params?: Record<string, string | number>) {
@@ -10,10 +12,15 @@ function url(path: string, params?: Record<string, string | number>) {
   return u.toString()
 }
 
-async function get<T>(path: string, params?: Record<string, string | number>): Promise<T> {
+async function get<T>(
+  path: string,
+  params?: Record<string, string | number>,
+  signal?: AbortSignal,
+): Promise<T> {
   const response = await fetch(url(path, params), {
     method: 'GET',
-    headers: { Accept: 'application/json' }
+    headers: { Accept: 'application/json' },
+    signal,
   })
 
   if (!response.ok) {
@@ -37,5 +44,35 @@ async function get<T>(path: string, params?: Record<string, string | number>): P
 
 export const api = {
   searchMovies: (query: string, limit = 10) =>
-    get<import('../types').MovieSearchResponse>('/movies/search', { q: query, limit })
+    get<MovieSearchResponse>('/movies/search', { q: query, limit }),
+
+  getMovieDetails: (movieId: number, signal?: AbortSignal) =>
+    get<MovieDetails>(`/movies/${movieId}`, undefined, signal),
+
+  getRecommendations: (movieId: number, n = 10, signal?: AbortSignal) =>
+    get<RecommendationResponse>(`/recommendations/${movieId}`, { n }, signal),
+}
+
+interface AbortState {
+  controller: AbortController
+  sequence: number
+}
+
+const abortState: AbortState = {
+  controller: new AbortController(),
+  sequence: 0,
+}
+
+export function refreshAbortScope() {
+  abortState.controller.abort()
+  abortState.controller = new AbortController()
+  abortState.sequence += 1
+}
+
+export function currentAbortSignal() {
+  return abortState.controller.signal
+}
+
+export function currentSequence() {
+  return abortState.sequence
 }

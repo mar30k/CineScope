@@ -45,3 +45,11 @@ desktop.ini
 
 # Runtime logs (optional; delete before commit if not needed)
 *.log
+
+# Frontend (React + Vite)
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.env.local
+/frontend/.env
+/frontend/package-lock.json
+
