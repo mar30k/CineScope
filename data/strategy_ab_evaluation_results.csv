@@ -1,0 +1,60 @@
+query_id,query_title,candidate_id,candidate_title,year,relevance,judgment_source,confidence,A_rank,B_rank,A_score,B_score,A_coverage
+19995,Avatar,54138,Star Trek Into Darkness,2013,2,human,high,1.0,1.0,0.37523318073191225,0.3752331807319121,1.0
+19995,Avatar,76757,Jupiter Ascending,2015,2,human,high,3.0,3.0,0.3392290890998255,0.3392290890998256,1.0
+19995,Avatar,679,Aliens,1986,1,human,high,2.0,2.0,0.3494268248103245,0.3494268248103246,1.0
+19995,Avatar,13475,Star Trek,2009,1,AI-assisted,high,9.0,9.0,0.30008414967949126,0.30008414967949143,1.0
+19995,Avatar,333355,Star Wars: Clone Wars: Volume 1,2005,0,AI-assisted,high,7.0,7.0,0.30356289610607856,0.3035628961060786,1.0
+19995,Avatar,188927,Star Trek Beyond,2016,1,AI-assisted,high,6.0,6.0,0.3064535446277128,0.3064535446277129,1.0
+19995,Avatar,869,Planet of the Apes,2001,2,AI-assisted,medium,5.0,5.0,0.3125427430406438,0.3125427430406437,1.0
+19995,Avatar,118340,Guardians of the Galaxy,2014,1,AI-assisted,high,4.0,4.0,0.31507371738096146,0.3150737173809615,1.0
+19995,Avatar,8077,Alien³,1992,0,AI-assisted,medium,10.0,10.0,0.29990492669750934,0.29990492669750934,1.0
+19995,Avatar,698,Moonraker,1979,0,AI-assisted,high,8.0,8.0,0.30260342142760277,0.30260342142760277,1.0
+155,The Dark Knight,22803,Law Abiding Citizen,2009,2,AI-assisted,high,,8.0,,0.3077102604201455,
+155,The Dark Knight,1620,Hitman,2007,0,AI-assisted,high,,10.0,,0.3014006387778938,
+155,The Dark Knight,7873,Harsh Times,2005,1,AI-assisted,medium,8.0,7.0,0.31305730158902056,0.3130573015890206,1.0
+155,The Dark Knight,26039,Point Blank,1967,1,AI-assisted,medium,4.0,3.0,0.32447985921020916,0.3244798592102092,1.0
+155,The Dark Knight,272,Batman Begins,2005,2,AI-assisted,high,2.0,2.0,0.5328499463784763,0.5328499463784764,1.0
+155,The Dark Knight,415,Batman & Robin,1997,1,AI-assisted,medium,,9.0,,0.30543564276451834,
+155,The Dark Knight,22314,In Too Deep,1999,1,AI-assisted,medium,10.0,,0.31139957766460913,,0.7333333333333333
+155,The Dark Knight,136797,Need for Speed,2014,0,AI-assisted,high,5.0,4.0,0.3192715756383868,0.3192715756383869,1.0
+155,The Dark Knight,41283,Faster,2010,0,AI-assisted,medium,9.0,,0.31139957766460924,,0.7333333333333333
+155,The Dark Knight,49026,The Dark Knight Rises,2012,2,AI-assisted,high,1.0,1.0,0.5979580137317053,0.5979580137317058,1.0
+155,The Dark Knight,378237,Amidst the Devil's Wings,2014,0,AI-assisted,low,3.0,,0.447213595499958,,0.26666666666666666
+155,The Dark Knight,102362,Dead Man Down,2013,1,AI-assisted,medium,7.0,6.0,0.3149564578383648,0.31495645783836496,1.0
+155,The Dark Knight,414,Batman Forever,1995,1,AI-assisted,medium,6.0,5.0,0.31552564713861764,0.3155256471386177,1.0
+12,Finding Nemo,10681,WALL·E,2008,2,AI-assisted,high,1.0,1.0,0.33333333333333326,0.33333333333333326,1.0
+12,Finding Nemo,49953,A Turtle's Tale: Sammy's Adventures,2010,1,AI-assisted,medium,,10.0,,0.2793650002877992,
+12,Finding Nemo,17710,Hey Arnold! The Movie,2002,0,AI-assisted,high,5.0,,0.311399577664609,,0.7333333333333333
+12,Finding Nemo,10567,Dinosaur,2000,1,AI-assisted,medium,8.0,6.0,0.28339194946762625,0.28339194946762636,1.0
+12,Finding Nemo,36696,Space Dogs,2010,0,AI-assisted,medium,10.0,7.0,0.2809625696511815,0.2809625696511816,1.0
+12,Finding Nemo,11802,Space Chimps,2008,0,AI-assisted,medium,,8.0,,0.28092339786398696,
+12,Finding Nemo,15655,The Tigger Movie,2000,1,AI-assisted,medium,,9.0,,0.27984483423904793,
+12,Finding Nemo,14444,The Rugrats Movie,1998,1,AI-assisted,low,7.0,5.0,0.29332635330413137,0.2933263533041314,1.0
+12,Finding Nemo,51162,Winnie the Pooh,2011,1,AI-assisted,medium,6.0,4.0,0.29335709622679307,0.2933570962267932,1.0
+12,Finding Nemo,20653,Roadside Romeo,2008,0,AI-assisted,low,9.0,,0.28109537972097154,,0.6666666666666666
+12,Finding Nemo,13682,Pooh's Heffalump Movie,2005,1,AI-assisted,medium,4.0,,0.311399577664609,,0.7333333333333333
+12,Finding Nemo,12429,Ponyo,2008,2,AI-assisted,medium,2.0,2.0,0.3213536246225863,0.3213536246225865,1.0
+12,Finding Nemo,20352,Despicable Me,2010,1,AI-assisted,high,3.0,3.0,0.31398510865918783,0.31398510865918783,1.0
+238,The Godfather,364083,Mi America,2015,0,AI-assisted,low,7.0,6.0,0.3302533456838699,0.3302533456838698,1.0
+238,The Godfather,119657,El Rey de Najayo,2012,1,AI-assisted,low,8.0,,0.32396125894132066,,0.7333333333333333
+238,The Godfather,18900,In Cold Blood,1967,1,AI-assisted,medium,,8.0,,0.32011838400042286,
+238,The Godfather,378237,Amidst the Devil's Wings,2014,0,AI-assisted,low,2.0,,0.42163702135578396,,0.26666666666666666
+238,The Godfather,242,The Godfather: Part III,1990,2,AI-assisted,high,3.0,2.0,0.40246014553703113,0.40246014553703124,1.0
+238,The Godfather,769,GoodFellas,1990,2,AI-assisted,high,6.0,5.0,0.33062869029116504,0.330628690291165,1.0
+238,The Godfather,4133,Blow,2001,1,AI-assisted,medium,,10.0,,0.30162578545921465,
+238,The Godfather,4982,American Gangster,2007,1,AI-assisted,medium,,9.0,,0.3031142702074706,
+238,The Godfather,227,The Outsiders,1983,0,AI-assisted,medium,5.0,4.0,0.33333333333333326,0.33333333333333326,1.0
+238,The Godfather,11699,The Bad Lieutenant: Port of Call - New Orleans,2009,0,AI-assisted,medium,9.0,7.0,0.3216104543741869,0.3216104543741869,1.0
+238,The Godfather,261023,Black Mass,2015,1,AI-assisted,medium,4.0,3.0,0.3455042130248154,0.34550421302481527,1.0
+238,The Godfather,310706,Black Water Transit,2009,0,AI-assisted,low,10.0,,0.32084925242857376,,0.7333333333333333
+238,The Godfather,240,The Godfather: Part II,1974,2,AI-assisted,high,1.0,1.0,0.535168161587813,0.5351681615878131,1.0
+329,Jurassic Park,299687,The 5th Wave,2016,0,AI-assisted,high,8.0,8.0,0.2666666666666666,0.2666666666666666,1.0
+329,Jurassic Park,330,The Lost World: Jurassic Park,1997,2,AI-assisted,high,1.0,1.0,0.5494279009840737,0.5494279009840736,1.0
+329,Jurassic Park,262504,Allegiant,2016,0,AI-assisted,high,9.0,7.0,0.2666666666666666,0.2666666666666666,1.0
+329,Jurassic Park,74,War of the Worlds,2005,1,AI-assisted,medium,5.0,5.0,0.28439908824739357,0.2843990882473936,1.0
+329,Jurassic Park,18162,Land of the Lost,2009,1,AI-assisted,medium,10.0,10.0,0.265797052378588,0.26579705237858803,1.0
+329,Jurassic Park,168,Star Trek IV: The Voyage Home,1986,0,AI-assisted,high,7.0,9.0,0.2666666666666666,0.2666666666666666,1.0
+329,Jurassic Park,135397,Jurassic World,2015,2,AI-assisted,high,2.0,2.0,0.44592515750753003,0.44592515750753,1.0
+329,Jurassic Park,13001,Stargate: The Ark of Truth,2008,0,AI-assisted,medium,6.0,6.0,0.26964900478897436,0.2696490047889743,1.0
+329,Jurassic Park,331,Jurassic Park III,2001,2,AI-assisted,high,3.0,3.0,0.3997093919734733,0.39970939197347327,1.0
+329,Jurassic Park,644,A.I. Artificial Intelligence,2001,0,AI-assisted,medium,4.0,4.0,0.2910974303372924,0.29109743033729235,1.0

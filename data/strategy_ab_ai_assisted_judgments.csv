@@ -1,0 +1,60 @@
+query_id,query_title,candidate_id,candidate_title,year,relevance,notes,judgment_source,confidence
+19995,Avatar,54138,Star Trek Into Darkness,2013,2,Owner-judged. Large-scale space adventure with the same immersive-spectacle register as the query.,human,high
+19995,Avatar,76757,Jupiter Ascending,2015,2,Owner-judged. Space opera with elaborate world-building and a human protagonist caught in an alien dynastic conflict.,human,high
+19995,Avatar,679,Aliens,1986,1,"Owner-judged. Same director and space-marine premise, but a horror-thriller tone rather than epic adventure.",human,high
+19995,Avatar,13475,Star Trek,2009,1,"Space action-adventure with comparable effects spectacle, but a franchise origin story rather than a first-contact / colonial narrative.",AI-assisted,high
+19995,Avatar,333355,Star Wars: Clone Wars: Volume 1,2005,0,"Animated micro-series episodes; shares only the 'space' tag, no narrative, thematic or tonal overlap.",AI-assisted,high
+19995,Avatar,188927,Star Trek Beyond,2016,1,Same register as the other Star Trek entries: space action-adventure without the Pandora / colonial theme.,AI-assisted,high
+19995,Avatar,869,Planet of the Apes,2001,2,"Astronaut stranded on an alien world ruled by another species, with a colonial / otherness theme - the closest thematic match in the pool.",AI-assisted,medium
+19995,Avatar,118340,Guardians of the Galaxy,2014,1,"Space action-adventure with spectacle and a team dynamic, but a comedic tone and no ecological theme.",AI-assisted,high
+19995,Avatar,8077,Alien³,1992,0,Grim prison-planet horror; shares the franchise and 'space' but not the adventure-spectacle register.,AI-assisted,medium
+19995,Avatar,698,Moonraker,1979,0,"Spy film that happens to end in space; no overlap in story, theme or tone.",AI-assisted,high
+155,The Dark Knight,22803,Law Abiding Citizen,2009,2,Vigilante-versus-justice-system thriller; the same moral argument about whether the system can be trusted.,AI-assisted,high
+155,The Dark Knight,1620,Hitman,2007,0,"Video-game assassin action; shares 'secret identity' only, no thematic or tonal overlap.",AI-assisted,high
+155,The Dark Knight,7873,Harsh Times,2005,1,"Gritty LA crime character study in the same register, but smaller in scale and without the superhero / morality-parable core.",AI-assisted,medium
+155,The Dark Knight,26039,Point Blank,1967,1,"Stylish neo-noir revenge thriller; same crime-and-retribution drive, more surreal and 1960s in style.",AI-assisted,medium
+155,The Dark Knight,272,Batman Begins,2005,2,"Direct predecessor: same director, same world, same gritty origin-of-the-vigilante story.",AI-assisted,high
+155,The Dark Knight,415,Batman & Robin,1997,1,"Shares the character and Gotham City, but the campy comedy tone is the opposite of the query's.",AI-assisted,medium
+155,The Dark Knight,22314,In Too Deep,1999,1,"Undercover-cop crime drama in the same street-crime register, without the superhero or moral-parable layer.",AI-assisted,medium
+155,The Dark Knight,136797,Need for Speed,2014,0,Street-racing action; shares only the 'action' and 'crime' tags.,AI-assisted,high
+155,The Dark Knight,41283,Faster,2010,0,Straightforward revenge actioner without the moral or structural complexity.,AI-assisted,medium
+155,The Dark Knight,49026,The Dark Knight Rises,2012,2,"Direct sequel in the same trilogy, world and cast.",AI-assisted,high
+155,The Dark Knight,378237,Amidst the Devil's Wings,2014,0,"No usable synopsis, cast, keywords or director in the dataset. Judged not relevant on the available evidence; flagged uncertain.",AI-assisted,low
+155,The Dark Knight,102362,Dead Man Down,2013,1,"NYC revenge thriller involving a crime lord; adjacent tone, thinner character work.",AI-assisted,medium
+155,The Dark Knight,414,Batman Forever,1995,1,"Same character and world, but a neon-campy register very unlike the query.",AI-assisted,medium
+12,Finding Nemo,10681,WALL·E,2008,2,"Same studio and director; wordless, emotionally driven non-human protagonists and a strong environmental theme.",AI-assisted,high
+12,Finding Nemo,49953,A Turtle's Tale: Sammy's Adventures,2010,1,Ocean-set animated animal journey with a family framing; much weaker craft and characterisation.,AI-assisted,medium
+12,Finding Nemo,17710,Hey Arnold! The Movie,2002,0,"Urban kids' TV spin-off; no ocean, adventure or father-son overlap.",AI-assisted,high
+12,Finding Nemo,10567,Dinosaur,2000,1,Animal protagonist separated from family and on a perilous journey; different setting and tone.,AI-assisted,medium
+12,Finding Nemo,36696,Space Dogs,2010,0,Russian animated kids' comedy; no thematic overlap.,AI-assisted,medium
+12,Finding Nemo,11802,Space Chimps,2008,0,Broad kids' comedy; shares only the 'animation / family' umbrella.,AI-assisted,medium
+12,Finding Nemo,15655,The Tigger Movie,2000,1,"Gentle family animation built on a search for a missing friend; same audience, softer register.",AI-assisted,medium
+12,Finding Nemo,14444,The Rugrats Movie,1998,1,"Missing-child and new-sibling plot echoes the query's separation story, but it is a TV-series comedy.",AI-assisted,low
+12,Finding Nemo,51162,Winnie the Pooh,2011,1,"Gentle family animation; shares audience and emotional simplicity, not the adventure.",AI-assisted,medium
+12,Finding Nemo,20653,Roadside Romeo,2008,0,Bollywood animated comedy with sparse metadata; no narrative or tonal overlap.,AI-assisted,low
+12,Finding Nemo,13682,Pooh's Heffalump Movie,2005,1,"Family animation about searching for a feared outsider; same audience, no ocean or adventure.",AI-assisted,medium
+12,Finding Nemo,12429,Ponyo,2008,2,"Ocean, a child and a magical fish, and a father's protectiveness - the strongest thematic match in the pool.",AI-assisted,medium
+12,Finding Nemo,20352,Despicable Me,2010,1,Animated family film whose emotional core is a parent learning to raise children; comedic tone.,AI-assisted,high
+238,The Godfather,364083,Mi America,2015,0,Hate-crime drama with limited metadata; no mafia or family-dynasty overlap.,AI-assisted,low
+238,The Godfather,119657,El Rey de Najayo,2012,1,"Organised-crime rise-and-fall, but a different country, era and production scale.",AI-assisted,low
+238,The Godfather,18900,In Cold Blood,1967,1,"Sombre true-crime procedural; crime and moral weight, but not a family saga.",AI-assisted,medium
+238,The Godfather,378237,Amidst the Devil's Wings,2014,0,No usable synopsis in the dataset; not relevant on the available evidence.,AI-assisted,low
+238,The Godfather,242,The Godfather: Part III,1990,2,Direct continuation of the same family and story.,AI-assisted,high
+238,The Godfather,769,GoodFellas,1990,2,"Italian-American mob life, rise and fall; the same subject matter and register.",AI-assisted,high
+238,The Godfather,4133,Blow,2001,1,"Drug-trade rise and fall; same arc, no family or patriarch dimension.",AI-assisted,medium
+238,The Godfather,4982,American Gangster,2007,1,Crime-empire rise-and-fall with a parallel police storyline and a different milieu.,AI-assisted,medium
+238,The Godfather,227,The Outsiders,1983,0,Teen gang coming-of-age; shares Coppola and the 'crime' tag only.,AI-assisted,medium
+238,The Godfather,11699,The Bad Lieutenant: Port of Call - New Orleans,2009,0,Corrupt-cop character study; no organised-crime dynasty.,AI-assisted,medium
+238,The Godfather,261023,Black Mass,2015,1,"Organised crime and FBI complicity in a true-crime register, without the family saga.",AI-assisted,medium
+238,The Godfather,310706,Black Water Transit,2009,0,Post-Katrina crime thriller with sparse metadata; no thematic overlap.,AI-assisted,low
+238,The Godfather,240,The Godfather: Part II,1974,2,"Direct sequel: same family, same saga.",AI-assisted,high
+329,Jurassic Park,299687,The 5th Wave,2016,0,YA alien-invasion survival story; no creature-park or science-hubris theme.,AI-assisted,high
+329,Jurassic Park,330,The Lost World: Jurassic Park,1997,2,"Direct sequel: dinosaurs, island, same franchise and spectacle.",AI-assisted,high
+329,Jurassic Park,262504,Allegiant,2016,0,YA dystopia sequel; shares only 'adventure / science fiction'.,AI-assisted,high
+329,Jurassic Park,74,War of the Worlds,2005,1,Spielberg disaster spectacle with a family in peril from monstrous forces; no dinosaurs or park.,AI-assisted,medium
+329,Jurassic Park,18162,Land of the Lost,2009,1,"Dinosaurs and a lost-world adventure, but played for comedy.",AI-assisted,medium
+329,Jurassic Park,168,Star Trek IV: The Voyage Home,1986,0,Light time-travel caper; no creature or park elements.,AI-assisted,high
+329,Jurassic Park,135397,Jurassic World,2015,2,Same franchise: a fully operating dinosaur theme park that fails.,AI-assisted,high
+329,Jurassic Park,13001,Stargate: The Ark of Truth,2008,0,Direct-to-video franchise science fiction; no overlap.,AI-assisted,medium
+329,Jurassic Park,331,Jurassic Park III,2001,2,"Same franchise, dinosaurs and island survival.",AI-assisted,high
+329,Jurassic Park,644,A.I. Artificial Intelligence,2001,0,"Spielberg science fiction, but a melancholy robot fable with no creature or adventure overlap.",AI-assisted,medium

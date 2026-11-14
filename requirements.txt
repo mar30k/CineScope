@@ -1,0 +1,19 @@
+# CineScope - runtime dependencies
+#
+# Pinned to the versions the model artifact was built and verified with.
+# scikit-learn / numpy / scipy versions matter: the persisted TF-IDF
+# vectorisers and sparse matrices are deserialised by joblib and are not
+# guaranteed to load across incompatible minor versions.
+#
+# Install:  python -m pip install -r requirements.txt
+
+# --- recommendation model (library) ---
+joblib==1.6.0
+numpy==2.4.6
+pandas==3.1.0
+scikit-learn==1.9.1
+scipy==1.17.1
+
+# --- HTTP API ---
+fastapi==0.162.7
+uvicorn[standard]==0.54.0

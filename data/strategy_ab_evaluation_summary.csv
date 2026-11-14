@@ -1,0 +1,13 @@
+scope,query_id,query_title,strategy,n_queries,n_returned,mean_graded_relevance,P@5,P@10,NDCG@5,NDCG@10
+per_query,19995.0,Avatar,A,,10.0,1.0,1.0,0.7,0.9323,0.9341
+per_query,19995.0,Avatar,B,,10.0,1.0,1.0,0.7,0.9323,0.9341
+per_query,155.0,The Dark Knight,A,,10.0,0.9,0.6,0.7,0.7383,0.777
+per_query,155.0,The Dark Knight,B,,10.0,1.1,0.8,0.8,0.8016,0.9061
+per_query,12.0,Finding Nemo,A,,10.0,0.9,0.8,0.7,0.9377,0.9085
+per_query,12.0,Finding Nemo,B,,10.0,1.0,1.0,0.8,1.0,0.9521
+per_query,238.0,The Godfather,A,,10.0,0.8,0.6,0.5,0.6838,0.7687
+per_query,238.0,The Godfather,B,,10.0,1.0,0.8,0.7,0.9089,0.9079
+per_query,329.0,Jurassic Park,A,,10.0,0.8,0.8,0.5,0.9403,0.9804
+per_query,329.0,Jurassic Park,B,,10.0,0.8,0.8,0.5,0.9403,0.9804
+macro_average,,,A,5.0,,0.88,0.76,0.62,0.8465,0.8737
+macro_average,,,B,5.0,,0.98,0.88,0.7,0.9166,0.9361

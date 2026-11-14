@@ -1,0 +1,60 @@
+query_id,query_title,candidate_id,A_rank,B_rank
+19995,Avatar,54138,1,1
+19995,Avatar,679,2,2
+19995,Avatar,76757,3,3
+19995,Avatar,118340,4,4
+19995,Avatar,869,5,5
+19995,Avatar,188927,6,6
+19995,Avatar,333355,7,7
+19995,Avatar,698,8,8
+19995,Avatar,13475,9,9
+19995,Avatar,8077,10,10
+155,The Dark Knight,49026,1,1
+155,The Dark Knight,272,2,2
+155,The Dark Knight,378237,3,
+155,The Dark Knight,26039,4,3
+155,The Dark Knight,136797,5,4
+155,The Dark Knight,414,6,5
+155,The Dark Knight,102362,7,6
+155,The Dark Knight,7873,8,7
+155,The Dark Knight,41283,9,
+155,The Dark Knight,22314,10,
+155,The Dark Knight,22803,,8
+155,The Dark Knight,415,,9
+155,The Dark Knight,1620,,10
+12,Finding Nemo,10681,1,1
+12,Finding Nemo,12429,2,2
+12,Finding Nemo,20352,3,3
+12,Finding Nemo,13682,4,
+12,Finding Nemo,17710,5,
+12,Finding Nemo,51162,6,4
+12,Finding Nemo,14444,7,5
+12,Finding Nemo,10567,8,6
+12,Finding Nemo,20653,9,
+12,Finding Nemo,36696,10,7
+12,Finding Nemo,11802,,8
+12,Finding Nemo,15655,,9
+12,Finding Nemo,49953,,10
+238,The Godfather,240,1,1
+238,The Godfather,378237,2,
+238,The Godfather,242,3,2
+238,The Godfather,261023,4,3
+238,The Godfather,227,5,4
+238,The Godfather,769,6,5
+238,The Godfather,364083,7,6
+238,The Godfather,119657,8,
+238,The Godfather,11699,9,7
+238,The Godfather,310706,10,
+238,The Godfather,18900,,8
+238,The Godfather,4982,,9
+238,The Godfather,4133,,10
+329,Jurassic Park,330,1,1
+329,Jurassic Park,135397,2,2
+329,Jurassic Park,331,3,3
+329,Jurassic Park,644,4,4
+329,Jurassic Park,74,5,5
+329,Jurassic Park,13001,6,6
+329,Jurassic Park,168,7,9
+329,Jurassic Park,299687,8,8
+329,Jurassic Park,262504,9,7
+329,Jurassic Park,18162,10,10
