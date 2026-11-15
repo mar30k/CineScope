@@ -1,300 +1,291 @@
-import { useState, useCallback } from 'react'
-import type {
-  MovieSearchResponse,
-  MovieSearchResult,
-  MovieDetails,
-  RecommendationResponse,
-} from '../types'
+import { useCallback, useState } from 'react'
+import type { MovieSearchResponse } from '../types'
 import { api } from '../api/client'
+import { useMovieSelection } from '../hooks/useMovieSelection'
 import { SearchBar } from '../components/SearchBar'
 import { MovieCard } from '../components/MovieCard'
-import { StatusChip } from '../components/StatusChip'
 import { ErrorMessage } from '../components/ErrorMessage'
 import { EmptyState } from '../components/EmptyState'
-import { BackButton } from '../components/BackButton'
+import { DiscoveryToolbar } from '../components/DiscoveryToolbar'
 import { MovieDetailsView } from '../components/MovieDetailsView'
+import tmdbLogo from '../assets/tmdb-logo.svg'
 
-type PageState =
+type SearchState =
   | { kind: 'idle' }
   | { kind: 'searching' }
   | { kind: 'results'; response: MovieSearchResponse }
-  | { kind: 'error'; message: string }
-  | {
-      kind: 'details-loading'
-      movie: MovieSearchResult
-      savedResults: MovieSearchResponse
-    }
-  | {
-      kind: 'details'
-      movie: MovieSearchResult
-      details: MovieDetails
-      savedResults: MovieSearchResponse
-    }
-  | {
-      kind: 'details-error'
-      movie: MovieSearchResult
-      message: string
-      savedResults: MovieSearchResponse
-    }
-  | {
-      kind: 'recommendations-loading'
-      movie: MovieSearchResult
-      details: MovieDetails
-      savedResults: MovieSearchResponse
-    }
-  | {
-      kind: 'recommendations'
-      movie: MovieSearchResult
-      details: MovieDetails
-      recommendations: RecommendationResponse
-      savedResults: MovieSearchResponse
-    }
-  | {
-      kind: 'recommendations-error'
-      movie: MovieSearchResult
-      details: MovieDetails
-      message: string
-      savedResults: MovieSearchResponse
-    }
+  | { kind: 'search-error'; message: string }
+
+function searchResultsSkeleton() {
+  return (
+    <div className="search-loading" role="status">
+      <span className="sr-only">Searching the catalogue…</span>
+      <div className="movie-grid" aria-hidden="true">
+        {[0, 1, 2, 3].map((index) => (
+          <div className="movie-card movie-card-skeleton" key={index}>
+            <span className="movie-card-poster skeleton-block" />
+            <span className="movie-card-body">
+              <span className="skeleton-line skeleton-line-title" />
+              <span className="skeleton-line skeleton-line-medium" />
+              <span className="skeleton-line skeleton-line-short" />
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
 
 export function SearchPage() {
   const [query, setQuery] = useState('')
-  const [pageState, setPageState] = useState<PageState>({ kind: 'idle' })
+  const [searchState, setSearchState] = useState<SearchState>({ kind: 'idle' })
+
+  const {
+    view,
+    savedResults,
+    setSavedResults,
+    selectSearchResult,
+    selectRecommendation,
+    goBack,
+    backToResults,
+    history,
+  } = useMovieSelection()
 
   const runSearch = useCallback(
     async (searchQuery: string) => {
-      setPageState({ kind: 'searching' })
+      setSearchState({ kind: 'searching' })
+      backToResults()
       try {
         const response = await api.searchMovies(searchQuery, 10)
-        setPageState({ kind: 'results', response })
+        setSearchState({ kind: 'results', response })
+        setSavedResults(response)
       } catch (error) {
         const message =
           error instanceof Error
             ? error.message
             : 'Failed to reach the movie search service.'
-        setPageState({ kind: 'error', message })
+        setSearchState({ kind: 'search-error', message })
       }
     },
-    []
+    [backToResults, setSavedResults]
   )
+
+  const handleClear = useCallback(() => {
+    setQuery('')
+    setSearchState({ kind: 'idle' })
+    setSavedResults(null)
+    backToResults()
+  }, [backToResults, setSavedResults])
 
   function handleSubmit() {
     const trimmed = query.trim()
     if (trimmed.length < 2) {
-      setPageState({ kind: 'error', message: 'Please enter at least 2 characters.' })
+      setSearchState({
+        kind: 'search-error',
+        message: 'Please enter at least 2 characters.',
+      })
       return
     }
     runSearch(trimmed)
   }
 
-  function backToResults(savedResults: MovieSearchResponse) {
-    setPageState({ kind: 'results', response: savedResults })
-  }
-
-  async function selectMovie(movie: MovieSearchResult) {
-    setPageState((current) => {
-      if (current.kind === 'results') {
-        return { kind: 'details-loading', movie, savedResults: current.response }
-      }
-      if (current.kind === 'details' || current.kind === 'details-error') {
-        return { kind: 'details-loading', movie, savedResults: current.savedResults }
-      }
-      if (
-        current.kind === 'recommendations' ||
-        current.kind === 'recommendations-loading' ||
-        current.kind === 'recommendations-error'
-      ) {
-        return {
-          kind: 'details-loading',
-          movie,
-          savedResults: current.savedResults,
-        }
-      }
-      return { kind: 'details-loading', movie, savedResults: { query: '', count: 0, results: [] } }
-    })
-
-    try {
-      const details = await api.getMovieDetails(movie.movie_id)
-      setPageState((current) => {
-        if (current.kind !== 'details-loading') {
-          return current
-        }
-        return { kind: 'details', movie, details, savedResults: current.savedResults }
-      })
-    } catch (error) {
-      const message =
-        error instanceof Error ? error.message : 'Failed to load movie details.'
-      setPageState((current) => {
-        if (current.kind !== 'details-loading') {
-          return current
-        }
-        return { kind: 'details-error', movie, message, savedResults: current.savedResults }
-      })
-      return
-    }
-
-    setPageState(
-      (current) => {
-        if (current.kind !== 'details') {
-          return current
-        }
-        return {
-          kind: 'recommendations-loading',
-          movie,
-          details: current.details,
-          savedResults: current.savedResults,
-        }
-      },
-    )
-
-    try {
-      const recommendations = await api.getRecommendations(movie.movie_id, 10)
-      setPageState(
-        (current) => {
-          if (current.kind !== 'recommendations-loading') {
-            return current
-          }
-          return {
-            kind: 'recommendations',
-            movie,
-            details: current.details,
-            recommendations,
-            savedResults: current.savedResults,
-          }
-        }
-      )
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : 'Failed to load recommendations.'
-      setPageState(
-        (current) => {
-          if (current.kind !== 'recommendations-loading') {
-            return current
-          }
-          return {
-            kind: 'recommendations-error',
-            movie,
-            details: current.details,
-            message,
-            savedResults: current.savedResults,
-          }
-        }
-      )
-    }
-  }
+  const currentMovie =
+    view === null ? null : 'movie' in view ? view.movie : view.entry.movie
 
   return (
     <main className="app">
-      <header className="header">
-        <h1 className="header-title">CineScope</h1>
-        <p className="header-subtitle">Discover movies by title</p>
+      <header className={`app-header ${view !== null ? 'app-header-compact' : ''}`}>
+        <div className="brand">
+          <span className="brand-mark" aria-hidden="true">
+            C
+          </span>
+          <div className="brand-copy">
+            <h1 className="brand-name">CineScope</h1>
+            <p className="brand-tagline">
+              {view === null
+                ? 'Follow the connections between films.'
+                : 'A KNN-powered discovery workspace.'}
+            </p>
+          </div>
+        </div>
+
+        {view !== null && (
+          <div
+            className="header-context"
+            title={
+              savedResults?.query ? `Search: ${savedResults.query}` : undefined
+            }
+          >
+            {savedResults?.query ? (
+              <>
+                Search <strong>“{savedResults.query}”</strong>
+              </>
+            ) : (
+              'Discovery'
+            )}
+          </div>
+        )}
       </header>
 
-      <section className="search-section">
-        <SearchBar
-          query={query}
-          onChange={setQuery}
-          onSubmit={handleSubmit}
-          disabled={pageState.kind === 'searching'}
-        />
-      </section>
+      {view === null ? (
+        <div className="search-workspace">
+          <section className="search-hero" aria-labelledby="search-heading">
+            <p className="eyebrow">Content-based discovery</p>
+            <h2 id="search-heading" className="search-title">
+              Start with a film you know.
+            </h2>
+            <p className="search-subtitle">
+              Search the catalogue, explore its details, then follow
+              recommendations deeper into what connects.
+            </p>
+            <SearchBar
+              query={query}
+              onChange={setQuery}
+              onSubmit={handleSubmit}
+              onClear={handleClear}
+              disabled={searchState.kind === 'searching'}
+            />
+          </section>
 
-      <section className="results-section" aria-live="polite">
-        {pageState.kind === 'idle' && (
-          <div className="empty-state idle-state">
-            <p>Search for a movie to begin.</p>
-          </div>
-        )}
+          <section
+            className="search-results-area"
+            aria-live="polite"
+            aria-busy={searchState.kind === 'searching'}
+          >
+            {searchState.kind === 'idle' && (
+              <div className="search-empty">
+                <div className="search-empty-art" aria-hidden="true">
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <h3>Every film is a doorway.</h3>
+                <p>
+                  Search for a title to open its details and follow
+                  recommendations deeper into the catalogue.
+                </p>
+              </div>
+            )}
 
-        {pageState.kind === 'searching' && (
-          <StatusChip message="Searching…" />
-        )}
+            {searchState.kind === 'searching' && searchResultsSkeleton()}
 
-        {pageState.kind === 'error' && (
-          <ErrorMessage message={pageState.message} />
-        )}
+            {searchState.kind === 'search-error' && (
+              <ErrorMessage message={searchState.message} />
+            )}
 
-        {pageState.kind === 'results' && (() => {
-          const response = pageState.response
-          if (response.results.length === 0) {
-            return <EmptyState query={response.query} />
-          }
+            {searchState.kind === 'results' &&
+              (searchState.response.results.length === 0 ? (
+                <EmptyState query={searchState.response.query} />
+              ) : (
+                <>
+                  <div className="results-header">
+                    <div>
+                      <p className="eyebrow">Search results</p>
+                      <h2 className="results-title">
+                        Results for “{searchState.response.query}”
+                      </h2>
+                    </div>
+                    <span className="results-count">
+                      {searchState.response.count}{' '}
+                      {searchState.response.count === 1 ? 'film' : 'films'}
+                    </span>
+                  </div>
 
-          return (
-            <ul className="movie-list">
-              {response.results.map((movie) => (
-                <li key={movie.movie_id}>
-                  <MovieCard
-                    movie={movie}
-                    selected={false}
-                    onClick={() => selectMovie(movie)}
-                  />
-                </li>
+                  <ul className="movie-grid">
+                    {searchState.response.results.map((movie) => (
+                      <li key={movie.movie_id}>
+                        <MovieCard
+                          movie={movie}
+                          selected={false}
+                          onClick={() => selectSearchResult(movie)}
+                        />
+                      </li>
+                    ))}
+                  </ul>
+                </>
               ))}
-            </ul>
-          )
-        })()}
-
-        {pageState.kind === 'details-loading' && (
-          <div className="details-shell">
-            <StatusChip message={`Loading details for ${pageState.movie.title}…`} />
-          </div>
-        )}
-
-        {pageState.kind === 'details-error' && (
-          <div className="details-shell">
-            <BackButton onClick={() => backToResults(pageState.savedResults)}>
-              Back to results
-            </BackButton>
-            <ErrorMessage message={pageState.message} />
-          </div>
-        )}
-
-        {pageState.kind === 'details' && (
-          <MovieDetailsView
-            movie={pageState.movie}
-            details={pageState.details}
-            savedResults={pageState.savedResults}
-            onBack={() => backToResults(pageState.savedResults)}
-          />
-        )}
-
-        {pageState.kind === 'recommendations-loading' && (
-          <div className="details-shell">
-            <MovieDetailsView
-              movie={pageState.movie}
-              details={pageState.details}
-              savedResults={pageState.savedResults}
-              onBack={() => backToResults(pageState.savedResults)}
+          </section>
+        </div>
+      ) : (
+        <div className="discovery-workspace">
+          {currentMovie && (
+            <DiscoveryToolbar
+              currentMovie={currentMovie}
+              history={history}
+              onBackToResults={backToResults}
+              onPreviousMovie={goBack}
             />
-            <StatusChip message="Loading recommendations…" />
-          </div>
-        )}
+          )}
 
-        {pageState.kind === 'recommendations-error' && (
-          <div className="details-shell">
+          {view.kind === 'details-loading' && (
+            <div className="discovery-state-card" role="status">
+              <span className="loading-pulse" aria-hidden="true" />
+              <h2>Loading {view.movie.title}</h2>
+              <p>
+                Fetching film details and finding close neighbours in the
+                catalogue.
+              </p>
+            </div>
+          )}
+
+          {view.kind === 'details-error' && (
+            <div className="discovery-state-card">
+              <ErrorMessage message={view.message} />
+              <p className="discovery-state-hint">
+                Return to your search results or choose another movie to keep
+                exploring.
+              </p>
+            </div>
+          )}
+
+          {(view.kind === 'recommendations-loading' ||
+            view.kind === 'recommendations' ||
+            view.kind === 'recommendations-error') && (
             <MovieDetailsView
-              movie={pageState.movie}
-              details={pageState.details}
-              savedResults={pageState.savedResults}
-              onBack={() => backToResults(pageState.savedResults)}
+              details={view.entry.details}
+              recommendations={
+                view.kind === 'recommendations'
+                  ? view.entry.recommendations
+                  : undefined
+              }
+              isLoadingRecommendations={
+                view.kind === 'recommendations-loading'
+              }
+              recommendationsError={
+                view.kind === 'recommendations-error'
+                  ? view.message
+                  : undefined
+              }
+              onSelectRecommendation={selectRecommendation}
             />
-            <ErrorMessage message={pageState.message} />
-          </div>
-        )}
+          )}
+        </div>
+      )}
 
-        {pageState.kind === 'recommendations' && (
-          <MovieDetailsView
-            movie={pageState.movie}
-            details={pageState.details}
-            savedResults={pageState.savedResults}
-            onBack={() => backToResults(pageState.savedResults)}
-            recommendations={pageState.recommendations}
-          />
-        )}
-      </section>
+      <footer className="app-footer">
+        <div className="app-footer-inner">
+          <span className="app-footer-label">Data attribution</span>
+          <a
+            className="tmdb-link"
+            href="https://www.themoviedb.org/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <img
+              className="tmdb-logo"
+              src={tmdbLogo}
+              alt="The Movie Database (TMDB)"
+              width={273}
+              height={36}
+              loading="lazy"
+            />
+          </a>
+          <p>
+            This product uses the TMDB API but is not endorsed or certified by
+            TMDB.
+          </p>
+        </div>
+      </footer>
     </main>
   )
 }

@@ -76,3 +76,4 @@ export function currentAbortSignal() {
 export function currentSequence() {
   return abortState.sequence
 }
+void currentSequence

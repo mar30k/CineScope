@@ -1,4 +1,6 @@
 import type { MovieSearchResult } from '../types'
+import { useMovieDetails } from '../hooks/useMovieDetails'
+import { MoviePoster } from './MoviePoster'
 
 interface MovieCardProps {
   movie: MovieSearchResult
@@ -7,13 +9,43 @@ interface MovieCardProps {
 }
 
 export function MovieCard({ movie, selected, onClick }: MovieCardProps) {
+  const detailsState = useMovieDetails(movie.movie_id)
+  const details = detailsState.kind === 'ready' ? detailsState.details : null
+
+  const year = movie.year ?? details?.year ?? null
+  const genres = details?.genres.slice(0, 3) ?? []
+  const posterUrl = movie.image?.poster_url ?? details?.image?.poster_url ?? null
+
   return (
-    <button type="button" className={`movie-card ${selected ? 'selected' : ''}`} onClick={onClick}>
-      <span className="movie-title">{movie.title}</span>
-      <span className="movie-meta">
-        {movie.year != null ? String(movie.year) : 'No year'}
-        {' · '}
-        <span className="movie-id">ID {movie.movie_id}</span>
+    <button
+      type="button"
+      className={`movie-card ${selected ? 'selected' : ''}`}
+      onClick={onClick}
+    >
+      <MoviePoster title={movie.title} src={posterUrl} variant="card" />
+
+      <span className="movie-card-body">
+        <span className="movie-card-top">
+          <span className="movie-title">{movie.title}</span>
+          {year != null && <span className="movie-year">{year}</span>}
+        </span>
+
+        {genres.length > 0 && (
+          <span className="movie-genres">
+            {genres.map((genre) => (
+              <span key={genre} className="movie-genre">
+                {genre}
+              </span>
+            ))}
+          </span>
+        )}
+
+        <span className="movie-card-foot">
+          <span className="movie-id">ID {movie.movie_id}</span>
+          <span className="movie-open">
+            Open movie <span aria-hidden="true">→</span>
+          </span>
+        </span>
       </span>
     </button>
   )

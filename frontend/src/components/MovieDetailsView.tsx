@@ -1,46 +1,34 @@
-import type { MovieSearchResult, MovieDetails, RecommendationResponse } from '../types'
-import { BackButton } from './BackButton'
+import type {
+  MovieDetails,
+  RecommendationResponse,
+  SelectedMovieInfo,
+} from '../types'
+import { ErrorMessage } from './ErrorMessage'
+import { RecommendationCard } from './RecommendationCard'
+import { MovieBackdrop, MoviePoster } from './MoviePoster'
 
 interface MovieDetailsViewProps {
-  movie: MovieSearchResult
   details: MovieDetails
-  savedResults: { query: string; count: number; results: Array<{ movie_id: number; title: string; year: number | null }> }
-  onBack: () => void
   recommendations?: RecommendationResponse
+  isLoadingRecommendations?: boolean
+  recommendationsError?: string
+  onSelectRecommendation: (item: SelectedMovieInfo) => void
 }
 
-function optionalRuntime(runtime: number | null) {
-  if (runtime == null) {
-    return null
+function formatRuntime(runtime: number) {
+  if (runtime < 60) {
+    return `${runtime} min`
   }
-  return `${runtime} min`
+
+  const hours = Math.floor(runtime / 60)
+  const minutes = runtime % 60
+  return minutes > 0 ? `${hours}h ${minutes}m` : `${hours}h`
 }
 
-function optionalRating(rating: number | null, count: number | null) {
-  if (rating == null) {
-    return null
-  }
-  const countText = count != null ? ` · ${count.toLocaleString()}` : ''
-  return `${rating.toFixed(1)} / 10${countText}`
-}
-
-function formatScore(score: number) {
-  return score.toFixed(3)
-}
-
-function formatCoverage(coverage: number) {
-  // Coverage is always present in [0,1] on this endpoint.
-  return coverage.toFixed(3)
-}
-
-function formatAgreement(agreement: number | null) {
-  if (agreement == null) {
-    return 'No shared feature blocks'
-  }
-  return agreement.toFixed(3)
-}
-
-function recommendationList(recommendations: RecommendationResponse) {
+function recommendationList(
+  recommendations: RecommendationResponse,
+  onSelect: (item: SelectedMovieInfo) => void
+) {
   if (recommendations.recommendations.length === 0) {
     return (
       <p className="recommendations-empty">
@@ -52,130 +40,156 @@ function recommendationList(recommendations: RecommendationResponse) {
   return (
     <ol className="recommendations">
       {recommendations.recommendations.map((item) => (
-        <li key={item.rank} className="recommendation">
-          <div className="recommendation-rank">
-            <span className="recommendation-rank-label">#{item.rank}</span>
-            <span className="recommendation-movie-id">ID {item.movie_id}</span>
-          </div>
-          <div className="recommendation-main">
-            <span className="recommendation-title">{item.title}</span>
-            <span className="recommendation-meta">
-              {item.year != null ? String(item.year) : 'No year'}{' · '}ID {item.movie_id}
-            </span>
-          </div>
-          <dl className="recommendation-score">
-            <div className="recommendation-field">
-              <dt>Score</dt>
-              <dd>{formatScore(item.score)}</dd>
-            </div>
-            <div className="recommendation-field">
-              <dt>Coverage</dt>
-              <dd>{formatCoverage(item.coverage)}</dd>
-            </div>
-            <div className="recommendation-field">
-              <dt>Agreement</dt>
-              <dd>{formatAgreement(item.agreement)}</dd>
-            </div>
-          </dl>
+        <li key={item.movie_id} className="recommendation-item">
+          <RecommendationCard item={item} onSelect={onSelect} />
         </li>
       ))}
     </ol>
   )
 }
 
+function recommendationSkeleton() {
+  return (
+    <div className="recommendations-skeleton" role="status">
+      <span className="sr-only">Loading recommendations…</span>
+      <div className="recommendation-skeleton-grid" aria-hidden="true">
+        {[0, 1, 2, 3].map((index) => (
+          <div className="recommendation-skeleton" key={index}>
+            <span className="recommendation-skeleton-poster" />
+            <span className="recommendation-skeleton-body">
+              <span className="skeleton-line skeleton-line-short" />
+              <span className="skeleton-line skeleton-line-title" />
+              <span className="skeleton-line" />
+              <span className="skeleton-line skeleton-line-medium" />
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function MovieDetailsView({
-  movie,
   details,
-  savedResults,
-  onBack,
   recommendations,
+  isLoadingRecommendations = false,
+  recommendationsError,
+  onSelectRecommendation,
 }: MovieDetailsViewProps) {
-  const genreList =
-    details.genres.length > 0 ? details.genres.join(', ') : null
+  const overview = details.overview?.trim() ?? ''
+  const castNames = details.cast
+    .slice(0, 8)
+    .map((member) => member.name)
+    .join(' · ')
+  const hasSupplementaryDetails =
+    overview.length > 0 ||
+    details.genres.length > 0 ||
+    details.director.length > 0 ||
+    castNames.length > 0
 
   return (
-    <div className={`details ${savedResults.results.length > 0 ? 'has-back' : ''}`}>
-      {savedResults.results.length > 0 && (
-        <BackButton onClick={onBack}>Back to results</BackButton>
-      )}
+    <div className="discovery-content">
+      <article className="movie-hero">
+        <MovieBackdrop
+          title={details.title}
+          src={details.image?.backdrop_url ?? null}
+        />
+        <MoviePoster
+          title={details.title}
+          src={details.image?.poster_url ?? null}
+          variant="hero"
+          loading="eager"
+        />
 
-      <div className="details-identity">
-        <h2 className="details-title">{details.title}</h2>
-        <p className="details-subtitle">
-          TMDB ID {details.movie_id}
-        </p>
-      </div>
+        <div className="movie-hero-content">
+          <p className="eyebrow">Now exploring</p>
+          <h2 className="movie-hero-title">{details.title}</h2>
 
-      <dl className="details-list">
-        <div className="details-row">
-          <dt>Year</dt>
-          <dd>{details.year != null ? String(details.year) : 'No year recorded'}</dd>
+          <div className="movie-hero-meta">
+            {details.year != null && <span>{details.year}</span>}
+            {details.runtime != null && (
+              <span>{formatRuntime(details.runtime)}</span>
+            )}
+            {details.vote_average != null && (
+              <span className="movie-hero-rating">
+                {details.vote_average.toFixed(1)} / 10
+                {details.vote_count != null && (
+                  <span className="movie-hero-votes">
+                    {details.vote_count.toLocaleString()} votes
+                  </span>
+                )}
+              </span>
+            )}
+            <span className="movie-hero-id">ID {details.movie_id}</span>
+          </div>
+
+          {details.genres.length > 0 && (
+            <div className="movie-hero-genres">
+              {details.genres.map((genre) => (
+                <span className="genre-chip" key={genre}>
+                  {genre}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {overview.length > 0 && (
+            <p className="movie-hero-overview">{overview}</p>
+          )}
+
+          {details.director.length > 0 && (
+            <p className="movie-hero-director">
+              Directed by {details.director.join(', ')}
+            </p>
+          )}
+
+          {castNames.length > 0 && (
+            <p className="movie-hero-cast">
+              <span className="movie-hero-cast-label">Cast</span>
+              {castNames}
+            </p>
+          )}
+
+          {!hasSupplementaryDetails && (
+            <p className="movie-hero-note">
+              Catalogue details are limited for this title.
+            </p>
+          )}
         </div>
+      </article>
 
-        {details.genres.length > 0 && (
-          <div className="details-row">
-            <dt>Genres</dt>
-            <dd>{details.genres.join(', ')}</dd>
-          </div>
-        )}
-
-        {details.director.length > 0 && (
-          <div className="details-row">
-            <dt>Director</dt>
-            <dd>{details.director.join(', ')}</dd>
-          </div>
-        )}
-
-        {details.runtime != null && (
-          <div className="details-row">
-            <dt>Runtime</dt>
-            <dd>{optionalRuntime(details.runtime)}</dd>
-          </div>
-        )}
-
-        {details.vote_average != null && (
-          <div className="details-row">
-            <dt>Rating</dt>
-            <dd>{optionalRating(details.vote_average, details.vote_count)}</dd>
-          </div>
-        )}
-
-        {details.overview != null && details.overview.trim().length > 0 && (
-          <div className="details-row">
-            <dt>Overview</dt>
-            <dd className="details-overview">{details.overview}</dd>
-          </div>
-        )}
-      </dl>
-
-      {genreList == null && details.director.length === 0 && details.overview == null && (
-        <p className="details-empty">
-          No additional details are available for this movie in the catalogue.
-        </p>
-      )}
-
-      {recommendations && (
-        <section className="recommendations-section" aria-labelledby="recommendations-heading">
-          <h3 id="recommendations-heading" className="recommendations-heading">
-            Recommended movies
+      <section
+        className="recommendations-section"
+        aria-labelledby="recommendations-heading"
+      >
+        <header className="recommendations-header">
+          <p className="eyebrow">Recommendations</p>
+          <h3
+            id="recommendations-heading"
+            className="recommendations-title"
+          >
+            Because you explored <span>{details.title}</span>
           </h3>
           <p className="recommendations-intro">
-            These movies are ranked by content agreement with this one. The score is
-            adjusted by how much of the configured feature set the two movies actually
-            share, so a smaller score can mean less evidence rather than a worse fit.
-            It is not a probability that you will like the movie.
+            CineScope uses a K-nearest-neighbours model over genre, keyword,
+            overview, cast, and director features to surface films that share
+            the most content with this one.
           </p>
-          {recommendationList(recommendations)}
-        </section>
-      )}
+          <p className="recommendations-note">
+            Scores are content-similarity measures, not probabilities that you
+            will like a movie.
+          </p>
+        </header>
 
-      <p className="details-identity details-id">
-        Selected: {movie.title}
-        {' · '}
-        {movie.year != null ? String(movie.year) : 'No year'}
-        {' · '}
-        ID {movie.movie_id}
-      </p>
+        {isLoadingRecommendations && recommendationSkeleton()}
+
+        {recommendationsError && (
+          <ErrorMessage message={recommendationsError} />
+        )}
+
+        {recommendations &&
+          recommendationList(recommendations, onSelectRecommendation)}
+      </section>
     </div>
   )
 }

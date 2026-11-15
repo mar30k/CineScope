@@ -1,7 +1,13 @@
+export interface MovieImage {
+  poster_url: string | null
+  backdrop_url: string | null
+}
+
 export interface MovieSearchResult {
   movie_id: number
   title: string
   year: number | null
+  image?: MovieImage | null
 }
 
 export interface MovieSearchResponse {
@@ -14,6 +20,11 @@ export interface ApiError {
   detail: string
 }
 
+export interface CastMember {
+  name: string
+  character: string | null
+}
+
 export interface MovieDetails {
   movie_id: number
   title: string
@@ -24,6 +35,8 @@ export interface MovieDetails {
   vote_average: number | null
   vote_count: number | null
   director: string[]
+  cast: CastMember[]
+  image?: MovieImage | null
 }
 
 export interface RecommendationItem {
@@ -34,6 +47,7 @@ export interface RecommendationItem {
   score: number
   coverage: number
   agreement: number | null
+  image?: MovieImage | null
 }
 
 export interface RecommendationResponse {
@@ -51,5 +65,5 @@ export interface SelectedMovieInfo {
 export interface DiscoveryEntry {
   movie: SelectedMovieInfo
   details: MovieDetails
-  recommendations: RecommendationResponse | null
+  recommendations: RecommendationResponse | null | undefined
 }
