@@ -10,10 +10,30 @@ positions, the raw pandas frame) stays server-side.
 from pydantic import BaseModel, Field
 
 
+class MovieImage(BaseModel):
+    """Optional artwork resolved from TMDB for a catalogue movie."""
+
+    poster_url: str | None = Field(
+        default=None, description="TMDB poster URL at w500, or null when absent."
+    )
+    backdrop_url: str | None = Field(
+        default=None, description="TMDB backdrop URL at w1280, or null when absent."
+    )
+
+
+class CastMember(BaseModel):
+    """One billed cast member in the movie details response."""
+
+    name: str = Field(description="Actor name.")
+    character: str | None = Field(
+        default=None, description="Character name, or null when unavailable."
+    )
+
+
 class RecommendationItem(BaseModel):
     """One ranked recommendation."""
 
-    movie_id: int = Field(description="TMDB movie id.")
+    movie_id: int = Field(description="CineScope catalogue movie id.")
     title: str = Field(description="Movie title.")
     year: int | None = Field(
         default=None, description="Release year, when the catalogue records one."
@@ -38,6 +58,10 @@ class RecommendationItem(BaseModel):
             "pair shares no feature blocks. Note score = coverage * agreement."
         ),
     )
+    image: MovieImage | None = Field(
+        default=None,
+        description="TMDB artwork when a confident title/year match exists.",
+    )
 
 
 class RecommendationResponse(BaseModel):
@@ -53,17 +77,23 @@ class RecommendationResponse(BaseModel):
 class MovieSummary(BaseModel):
     """A catalogue entry, as returned by search."""
 
-    movie_id: int = Field(description="TMDB movie id. Use this to request recommendations.")
+    movie_id: int = Field(
+        description="CineScope catalogue movie id. Use this to request recommendations."
+    )
     title: str = Field(description="Movie title.")
     year: int | None = Field(
         default=None, description="Release year, when the catalogue records one."
+    )
+    image: MovieImage | None = Field(
+        default=None,
+        description="TMDB artwork when a confident title/year match exists.",
     )
 
 
 class MovieDetails(BaseModel):
     """Full metadata for one selected movie."""
 
-    movie_id: int = Field(description="TMDB movie id.")
+    movie_id: int = Field(description="CineScope catalogue movie id.")
     title: str = Field(description="Movie title.")
     year: int | None = Field(
         default=None, description="Release year, when the catalogue records one."
@@ -83,6 +113,14 @@ class MovieDetails(BaseModel):
         default=None, description="Number of TMDB votes, or null when absent."
     )
     director: list[str] = Field(default_factory=list, description="Director names.")
+    cast: list[CastMember] = Field(
+        default_factory=list,
+        description="Up to eight billed cast members, in credits order.",
+    )
+    image: MovieImage | None = Field(
+        default=None,
+        description="TMDB artwork when a confident title/year match exists.",
+    )
 
 
 class MovieSearchResponse(BaseModel):

@@ -9,22 +9,34 @@ response schemas. No scoring, feature or loading logic is duplicated here.
 
 from __future__ import annotations
 
+import logging
 import math
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Path, Query
 
-from api.dependencies import get_model
+from api.dependencies import (
+    get_cast_service,
+    get_image_service,
+    get_model,
+    get_search_index,
+)
+from api.movie_cast import MovieCastService
+from api.search import MovieSearchIndex
 from api.schemas import (
+    CastMember,
     MovieDetails,
+    MovieImage,
     MovieSearchResponse,
     MovieSummary,
     RecommendationItem,
     RecommendationResponse,
 )
+from api.tmdb_images import ImageAssets, MovieIdentity, TmdbImageService
 from src.models.recommender import MovieRecommender
 
 router = APIRouter()
+logger = logging.getLogger("cinescope.api.routes")
 
 DEFAULT_N = 10
 MAX_N = 50
@@ -57,6 +69,48 @@ def _text_or_none(value) -> str | None:
     return text or None
 
 
+def _movie_image(assets: ImageAssets | None) -> MovieImage | None:
+    """Translate the enrichment layer's value into the public schema."""
+    if assets is None:
+        return None
+    return MovieImage(
+        poster_url=assets.poster_url,
+        backdrop_url=assets.backdrop_url,
+    )
+
+
+def _images_for(
+    service: TmdbImageService | None, movies: list[MovieIdentity]
+) -> dict[int, ImageAssets]:
+    """Resolve images without allowing TMDB to affect the catalogue request."""
+    if service is None or not movies:
+        return {}
+    try:
+        return service.get_images_for_movies(movies)
+    except Exception:
+        # Artwork is additive; an unexpected enrichment failure must not turn
+        # a valid search, details or recommendation response into a 500.
+        logger.exception("TMDB image enrichment failed; continuing without artwork.")
+        return {}
+
+
+def _cast_for(
+    service: MovieCastService | None, movie_id: int
+) -> list[CastMember]:
+    """Resolve cast without allowing credits data to break movie details."""
+    if service is None:
+        return []
+    try:
+        credits = service.get_cast(movie_id)
+    except Exception:
+        logger.exception("Cast lookup failed for movie %s; returning no cast.", movie_id)
+        return []
+    return [
+        CastMember(name=credit.name, character=credit.character)
+        for credit in credits
+    ]
+
+
 @router.get(
     "/recommendations/{movie_id}",
     response_model=RecommendationResponse,
@@ -69,7 +123,8 @@ def _text_or_none(value) -> str | None:
 )
 def get_recommendations(
     movie_id: Annotated[
-        int, Path(ge=1, description="TMDB movie id of the query movie.")
+        int,
+        Path(ge=1, description="CineScope catalogue id of the query movie."),
     ],
     n: Annotated[
         int,
@@ -80,6 +135,7 @@ def get_recommendations(
         ),
     ] = DEFAULT_N,
     model: MovieRecommender = Depends(get_model),
+    image_service: TmdbImageService | None = Depends(get_image_service),
 ) -> RecommendationResponse:
     """Top-N content-similar movies for ``movie_id``, excluding the movie itself."""
     try:
@@ -95,17 +151,29 @@ def get_recommendations(
         # Reachable when the query movie has no usable feature blocks.
         raise HTTPException(status_code=422, detail=str(error)) from error
 
+    rows = list(frame.itertuples(index=False))
+    identities = [
+        MovieIdentity(
+            movie_id=int(row.movie_id),
+            title=str(row.title),
+            year=_int_or_none(row.year),
+        )
+        for row in rows
+    ]
+    images = _images_for(image_service, identities)
+
     items = [
         RecommendationItem(
             movie_id=int(row.movie_id),
             title=row.title,
-            year=None if row.year is None else int(row.year),
+            year=_int_or_none(row.year),
             rank=int(row.rank),
             score=_finite(row.score) or 0.0,
             coverage=_finite(row.coverage) or 0.0,
             agreement=_finite(row.agreement),
+            image=_movie_image(images.get(int(row.movie_id))),
         )
-        for row in frame.itertuples(index=False)
+        for row in rows
     ]
 
     return RecommendationResponse(
@@ -139,15 +207,19 @@ def search_movies(
         ),
     ] = DEFAULT_SEARCH_LIMIT,
     model: MovieRecommender = Depends(get_model),
+    image_service: TmdbImageService | None = Depends(get_image_service),
+    search_index: MovieSearchIndex = Depends(get_search_index),
 ) -> MovieSearchResponse:
-    """Case-insensitive partial-title search over the loaded catalogue.
+    """Ranked title search over the loaded catalogue.
 
-    Title matching only - the recommendation engine is not involved, so a
-    search costs a string scan over 4,803 rows rather than a similarity
-    computation. Duplicate titles are returned as separate entries because
-    each is a distinct catalogue row with its own id.
+    Matching and ranking live in ``api.search``: exact, prefix, substring,
+    order-independent token and fuzzy matches are tried in that order, so a
+    typo-tolerant hit can never outrank a direct title match. The index is
+    built once at startup, so a request only scans pre-normalized titles.
+    Duplicate titles are returned as separate entries because each is a
+    distinct catalogue row with its own id.
     """
-    term = q.strip().lower()
+    term = q.strip()
     if not term:
         # ``min_length`` counts characters, so "   " passes it; a search with
         # no actual term is still a client error.
@@ -156,34 +228,27 @@ def search_movies(
             detail="Query must contain at least one non-whitespace character.",
         )
 
-    titles = model.movies["title"].astype(str).str.lower()
-    hits = titles.str.contains(term, regex=False).to_numpy()
-    lowered = titles.to_numpy()
+    selected = [model.get_movie(movie_id) for movie_id in search_index.search(term, limit)]
 
-    # Order: exact title, then prefix matches, then substring matches;
-    # alphabetical within a tier so results are stable across requests.
-    matches: list[tuple[int, str, int]] = []
-    for position, hit in enumerate(hits):
-        if not hit:
-            continue
-        title = str(lowered[position])
-        tier = 0 if title == term else (1 if title.startswith(term) else 2)
-        matches.append((tier, title, position))
-    matches.sort()
-
-    ids = model.movies["id"].to_numpy()
-    results = []
-    for _, _, position in matches[:limit]:
-        # Hydrated through the model's public accessor so the year handling
-        # (including "no release date") stays in one place.
-        info = model.get_movie(int(ids[position]))
-        results.append(
-            MovieSummary(
-                movie_id=info["movie_id"],
-                title=info["title"],
-                year=info["year"],
-            )
+    identities = [
+        MovieIdentity(
+            movie_id=int(info["movie_id"]),
+            title=str(info["title"]),
+            year=_int_or_none(info["year"]),
         )
+        for info in selected
+    ]
+    images = _images_for(image_service, identities)
+
+    results = [
+        MovieSummary(
+            movie_id=info["movie_id"],
+            title=info["title"],
+            year=info["year"],
+            image=_movie_image(images.get(int(info["movie_id"]))),
+        )
+        for info in selected
+    ]
 
     return MovieSearchResponse(query=q, count=len(results), results=results)
 
@@ -196,8 +261,12 @@ def search_movies(
     responses={404: {"description": "No movie with that id in the catalogue."}},
 )
 def get_movie_details(
-    movie_id: Annotated[int, Path(ge=1, description="TMDB movie id.")],
+    movie_id: Annotated[
+        int, Path(ge=1, description="CineScope catalogue movie id.")
+    ],
     model: MovieRecommender = Depends(get_model),
+    image_service: TmdbImageService | None = Depends(get_image_service),
+    cast_service: MovieCastService | None = Depends(get_cast_service),
 ) -> MovieDetails:
     """Describe a single catalogue entry.
 
@@ -207,7 +276,9 @@ def get_movie_details(
 
     Identity, title, year, genres and director come from the model's public
     ``get_movie()`` accessor; the remaining fields are read from the loaded
-    ``model.movies`` frame. Both read in memory - no CSV, no reload.
+    ``model.movies`` frame. Cast credits come from the independently loaded
+    ``MovieCastService`` because the model keeps only the top five actor names
+    needed for its feature block.
     """
     try:
         info = model.get_movie(movie_id)
@@ -224,6 +295,13 @@ def get_movie_details(
     if runtime is not None and runtime <= 0:
         runtime = None
 
+    identity = MovieIdentity(
+        movie_id=int(info["movie_id"]),
+        title=str(info["title"]),
+        year=_int_or_none(info["year"]),
+    )
+    images = _images_for(image_service, [identity])
+
     return MovieDetails(
         movie_id=info["movie_id"],
         title=info["title"],
@@ -234,4 +312,6 @@ def get_movie_details(
         vote_average=_finite(row["vote_average"]),
         vote_count=_int_or_none(row["vote_count"]),
         director=info["director"],
+        cast=_cast_for(cast_service, identity.movie_id),
+        image=_movie_image(images.get(identity.movie_id)),
     )

@@ -1,7 +1,7 @@
 """
 CineScope API.
 
-    uvicorn api.main:app --reload --port 8000
+    uvicorn api.main:app --reload --port 8000 --env-file .env
 
 The application is deliberately separate from ``src/``: ``src`` holds the
 library (data, features, model) and this package holds only the HTTP layer.
@@ -38,7 +38,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from api.dependencies import get_model
+from api.movie_cast import MovieCastService
 from api.routes import router as recommendations_router
+from api.search import MovieSearchIndex
+from api.tmdb_images import TmdbImageService
 from src.config import CONFIG_NAME, MODEL_NAME, MODEL_VERSION, SCORING_STRATEGY
 from src.models.recommender import MovieRecommender
 
@@ -68,14 +71,40 @@ async def lifespan(app: FastAPI):
         ) from error
 
     app.state.model = model
+    app.state.cast_service = MovieCastService.load()
+    app.state.image_service = TmdbImageService.from_environment()
+    # Normalized titles, tokens and years are computed once here so a search
+    # request never rebuilds them.
+    app.state.search_index = MovieSearchIndex.build(model.movies)
+    logger.info("Search index ready: %d titles.", app.state.search_index.n_titles)
+
     logger.info(
         "Model ready: %d movies, config %r, strategy %s, weights %s",
         model.n_movies, CONFIG_NAME, SCORING_STRATEGY, model.weights,
     )
+    if app.state.cast_service.n_movies:
+        logger.info(
+            "Cast metadata ready: %d movies with credits.",
+            app.state.cast_service.n_movies,
+        )
+    else:
+        logger.warning(
+            "Cast metadata unavailable. Details will return an empty cast list."
+        )
+    if app.state.image_service.enabled:
+        logger.info("TMDB image enrichment enabled.")
+    else:
+        logger.warning(
+            "TMDB image enrichment disabled: TMDB_API_KEY is not set. "
+            "The API will serve without artwork."
+        )
 
     try:
         yield
     finally:
+        app.state.image_service = None
+        app.state.cast_service = None
+        app.state.search_index = None
         app.state.model = None
         logger.info("Model released; shutdown complete.")
 
