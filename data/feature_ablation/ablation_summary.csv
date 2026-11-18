@@ -1,0 +1,7 @@
+configuration,dropped_block,denominator,n_queries,P@5,P@10,NDCG@5,NDCG@10,mean_graded_relevance,mean_unjudged_in_full_top10
+full,,3.75,5,0.88,0.7,0.9166,0.9361,0.98,0.0
+without_genres,genres,2.75,5,0.84,0.7,0.8687,0.9018,0.98,7.4
+without_keywords,keywords,2.75,5,0.72,0.68,0.7467,0.8694,0.96,4.4
+without_overview,overview,2.75,5,0.88,0.68,0.9166,0.9298,0.96,2.0
+without_cast,cast,3.25,5,0.84,0.7,0.9156,0.9431,0.98,0.8
+without_director,director,3.5,5,0.84,0.72,0.8713,0.9273,1.0,1.0

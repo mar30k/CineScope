@@ -16,7 +16,28 @@ CATALOGUE = [
     (6, "Planet of the Apes", "2001-07-25"),
     (7, "Batman Begins", "2005-06-10"),
     (8, "Fast & Furious", "2009-04-03"),
+    (9, "Rise of the Planet of the Apes", "2011-08-05"),
+    (10, "Dawn of the Planet of the Apes", "2014-06-26"),
+    (11, "War for the Planet of the Apes", "2017-07-11"),
+    (12, "Avatar", "2009-12-15"),
+    (13, "The Vatican Tapes", "2015-07-24"),
 ]
+
+GENRES = {
+    1: ["Action", "Crime"],
+    2: ["Action", "Crime"],
+    3: ["Adventure", "Fantasy"],
+    4: ["Adventure", "Fantasy"],
+    5: ["Science Fiction"],
+    6: ["Science Fiction"],
+    7: ["Action", "Crime"],
+    8: ["Action", "Crime"],
+    9: ["Science Fiction"],
+    10: ["Science Fiction"],
+    11: ["Science Fiction"],
+    12: ["Science Fiction"],
+    13: ["Horror"],
+}
 
 
 def build_frame():
@@ -41,7 +62,7 @@ class FakeModel:
             "movie_id": int(row["id"]),
             "title": str(row["title"]),
             "year": int(year),
-            "genres": [],
+            "genres": GENRES[int(row["id"])],
             "director": [],
         }
 
@@ -92,6 +113,21 @@ class SearchIndexTests(unittest.TestCase):
         results = self.index.search("planet of the apes", 10)
         self.assertEqual(results[:2], [5, 6])
 
+    def test_franchise_titles_follow_exact_duplicates(self) -> None:
+        results = self.index.search("planet of the apes", 10)
+        self.assertEqual(results[:2], [5, 6])
+        self.assertEqual(set(results[2:]), {9, 10, 11})
+
+    def test_word_start_phrase_beats_mid_word_fragment(self) -> None:
+        results = self.index.search("apes", 10)
+        self.assertEqual(results[:2], [5, 6])
+        self.assertEqual(set(results[:5]), {5, 6, 9, 10, 11})
+        self.assertIn(13, results)
+        self.assertGreater(results.index(13), 4)
+
+    def test_fuzzy_match_finds_misspelled_title(self) -> None:
+        self.assertEqual(self.index.search("avatr", 10), [12])
+
     def test_very_short_query_is_not_fuzzy(self) -> None:
         self.assertEqual(self.index.search("zz", 10), [])
 
@@ -129,7 +165,7 @@ class SearchEndpointTests(unittest.TestCase):
     def tearDown(self) -> None:
         app.dependency_overrides.clear()
 
-    def test_response_contract_is_unchanged(self) -> None:
+    def test_response_contract_includes_genres(self) -> None:
         response = self.client.get("/movies/search", params={"q": "dark kn"})
 
         self.assertEqual(response.status_code, 200)
@@ -138,9 +174,10 @@ class SearchEndpointTests(unittest.TestCase):
         self.assertEqual(body["count"], len(body["results"]))
         self.assertEqual(
             set(body["results"][0]),
-            {"movie_id", "title", "year", "image"},
+            {"movie_id", "title", "year", "genres", "image"},
         )
         self.assertEqual(body["results"][0]["movie_id"], 1)
+        self.assertEqual(body["results"][0]["genres"], ["Action", "Crime"])
 
     def test_no_match_returns_empty_results(self) -> None:
         response = self.client.get("/movies/search", params={"q": "zzzzzzzzzz"})
@@ -153,11 +190,33 @@ class SearchEndpointTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 422)
 
+    def test_query_shorter_than_minimum_is_rejected(self) -> None:
+        response = self.client.get("/movies/search", params={"q": "a"})
+
+        self.assertEqual(response.status_code, 422)
+
+    def test_invalid_limits_are_rejected(self) -> None:
+        for limit in (0, 51):
+            with self.subTest(limit=limit):
+                response = self.client.get(
+                    "/movies/search", params={"q": "dark kn", "limit": limit}
+                )
+                self.assertEqual(response.status_code, 422)
+
     def test_duplicate_titles_keep_their_own_ids(self) -> None:
         response = self.client.get("/movies/search", params={"q": "planet of the apes"})
 
         ids = [item["movie_id"] for item in response.json()["results"]]
-        self.assertEqual(ids, [5, 6])
+        self.assertEqual(ids[:2], [5, 6])
+        self.assertEqual(set(ids[2:]), {9, 10, 11})
+
+    def test_fuzzy_suggestion_is_returned_by_endpoint(self) -> None:
+        response = self.client.get("/movies/search", params={"q": "avatr"})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            [item["movie_id"] for item in response.json()["results"]], [12]
+        )
 
     def test_deterministic_across_identical_requests(self) -> None:
         first = self.client.get("/movies/search", params={"q": "the"}).json()

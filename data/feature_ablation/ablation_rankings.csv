@@ -1,0 +1,301 @@
+configuration,query_id,query_title,rank,candidate_id,candidate_title,score,relevance,unjudged_in_full_top10
+full,19995,Avatar,1,54138,Star Trek Into Darkness,0.3752331807319121,2,0
+full,19995,Avatar,2,679,Aliens,0.3494268248103246,1,0
+full,19995,Avatar,3,76757,Jupiter Ascending,0.3392290890998256,2,0
+full,19995,Avatar,4,118340,Guardians of the Galaxy,0.3150737173809615,1,0
+full,19995,Avatar,5,869,Planet of the Apes,0.3125427430406437,2,0
+full,19995,Avatar,6,188927,Star Trek Beyond,0.3064535446277129,1,0
+full,19995,Avatar,7,333355,Star Wars: Clone Wars: Volume 1,0.3035628961060786,0,0
+full,19995,Avatar,8,698,Moonraker,0.30260342142760277,0,0
+full,19995,Avatar,9,13475,Star Trek,0.30008414967949143,1,0
+full,19995,Avatar,10,8077,Alien³,0.29990492669750934,0,0
+full,155,The Dark Knight,1,49026,The Dark Knight Rises,0.5979580137317058,2,0
+full,155,The Dark Knight,2,272,Batman Begins,0.5328499463784764,2,0
+full,155,The Dark Knight,3,26039,Point Blank,0.3244798592102092,1,0
+full,155,The Dark Knight,4,136797,Need for Speed,0.3192715756383869,0,0
+full,155,The Dark Knight,5,414,Batman Forever,0.3155256471386177,1,0
+full,155,The Dark Knight,6,102362,Dead Man Down,0.31495645783836496,1,0
+full,155,The Dark Knight,7,7873,Harsh Times,0.3130573015890206,1,0
+full,155,The Dark Knight,8,22803,Law Abiding Citizen,0.3077102604201455,2,0
+full,155,The Dark Knight,9,415,Batman & Robin,0.30543564276451834,1,0
+full,155,The Dark Knight,10,1620,Hitman,0.3014006387778938,0,0
+full,12,Finding Nemo,1,10681,WALL·E,0.33333333333333326,2,0
+full,12,Finding Nemo,2,12429,Ponyo,0.3213536246225865,2,0
+full,12,Finding Nemo,3,20352,Despicable Me,0.31398510865918783,1,0
+full,12,Finding Nemo,4,51162,Winnie the Pooh,0.2933570962267932,1,0
+full,12,Finding Nemo,5,14444,The Rugrats Movie,0.2933263533041314,1,0
+full,12,Finding Nemo,6,10567,Dinosaur,0.28339194946762636,1,0
+full,12,Finding Nemo,7,36696,Space Dogs,0.2809625696511816,0,0
+full,12,Finding Nemo,8,11802,Space Chimps,0.28092339786398696,0,0
+full,12,Finding Nemo,9,15655,The Tigger Movie,0.27984483423904793,1,0
+full,12,Finding Nemo,10,49953,A Turtle's Tale: Sammy's Adventures,0.2793650002877992,1,0
+full,238,The Godfather,1,240,The Godfather: Part II,0.5351681615878131,2,0
+full,238,The Godfather,2,242,The Godfather: Part III,0.40246014553703124,2,0
+full,238,The Godfather,3,261023,Black Mass,0.34550421302481527,1,0
+full,238,The Godfather,4,227,The Outsiders,0.33333333333333326,0,0
+full,238,The Godfather,5,769,GoodFellas,0.330628690291165,2,0
+full,238,The Godfather,6,364083,Mi America,0.3302533456838698,0,0
+full,238,The Godfather,7,11699,The Bad Lieutenant: Port of Call - New Orleans,0.3216104543741869,0,0
+full,238,The Godfather,8,18900,In Cold Blood,0.32011838400042286,1,0
+full,238,The Godfather,9,4982,American Gangster,0.3031142702074706,1,0
+full,238,The Godfather,10,4133,Blow,0.30162578545921465,1,0
+full,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.5494279009840736,2,0
+full,329,Jurassic Park,2,135397,Jurassic World,0.44592515750753,2,0
+full,329,Jurassic Park,3,331,Jurassic Park III,0.39970939197347327,2,0
+full,329,Jurassic Park,4,644,A.I. Artificial Intelligence,0.29109743033729235,0,0
+full,329,Jurassic Park,5,74,War of the Worlds,0.2843990882473936,1,0
+full,329,Jurassic Park,6,13001,Stargate: The Ark of Truth,0.2696490047889743,0,0
+full,329,Jurassic Park,7,262504,Allegiant,0.2666666666666666,0,0
+full,329,Jurassic Park,8,299687,The 5th Wave,0.2666666666666666,0,0
+full,329,Jurassic Park,9,168,Star Trek IV: The Voyage Home,0.2666666666666666,0,0
+full,329,Jurassic Park,10,18162,Land of the Lost,0.26579705237858803,1,0
+without_genres,19995,Avatar,1,679,Aliens,0.2946729429231699,1,6
+without_genres,19995,Avatar,2,8077,Alien³,0.19901571124583056,0,6
+without_genres,19995,Avatar,3,54138,Star Trek Into Darkness,0.19676328144008426,2,6
+without_genres,19995,Avatar,4,869,Planet of the Apes,0.1534673768736051,2,6
+without_genres,19995,Avatar,5,698,Moonraker,0.1399137564921857,0,6
+without_genres,19995,Avatar,6,118340,Guardians of the Galaxy,0.1147276495978788,1,6
+without_genres,19995,Avatar,7,188927,Star Trek Beyond,0.10297286857072162,1,6
+without_genres,19995,Avatar,8,76757,Jupiter Ascending,0.09894875786339852,2,6
+without_genres,19995,Avatar,9,13475,Star Trek,0.0942873300049651,1,6
+without_genres,19995,Avatar,10,333355,Star Wars: Clone Wars: Volume 1,0.0887031525083196,0,6
+without_genres,155,The Dark Knight,1,49026,The Dark Knight Rises,0.4517609278159622,2,6
+without_genres,155,The Dark Knight,2,272,Batman Begins,0.4116952345944901,2,6
+without_genres,155,The Dark Knight,3,414,Batman Forever,0.2203166936655239,1,6
+without_genres,155,The Dark Knight,4,415,Batman & Robin,0.206557596791752,1,6
+without_genres,155,The Dark Knight,5,22803,Law Abiding Citizen,0.10468657192403881,2,6
+without_genres,155,The Dark Knight,6,26039,Point Blank,0.0788361716502853,1,6
+without_genres,155,The Dark Knight,7,136797,Need for Speed,0.07173396677961842,0,6
+without_genres,155,The Dark Knight,8,102362,Dead Man Down,0.06584971523413398,1,6
+without_genres,155,The Dark Knight,9,7873,Harsh Times,0.0632599567123008,1,6
+without_genres,155,The Dark Knight,10,1620,Hitman,0.04736450742440056,0,6
+without_genres,12,Finding Nemo,1,10681,WALL·E,0.09090909090909091,2,10
+without_genres,12,Finding Nemo,2,12429,Ponyo,0.07457312448534524,2,10
+without_genres,12,Finding Nemo,3,20352,Despicable Me,0.06452514817161985,1,10
+without_genres,12,Finding Nemo,4,51162,Winnie the Pooh,0.036396040309263494,1,10
+without_genres,12,Finding Nemo,5,14444,The Rugrats Movie,0.03635411814199749,1,10
+without_genres,12,Finding Nemo,6,10567,Dinosaur,0.0228072038194906,1,10
+without_genres,12,Finding Nemo,7,36696,Space Dogs,0.01949441316070226,0,10
+without_genres,12,Finding Nemo,8,11802,Space Chimps,0.019440997087255066,0,10
+without_genres,12,Finding Nemo,9,15655,The Tigger Movie,0.017970228507792726,1,10
+without_genres,12,Finding Nemo,10,49953,A Turtle's Tale: Sammy's Adventures,0.017315909483362615,1,10
+without_genres,238,The Godfather,1,240,The Godfather: Part II,0.3661384021651996,2,8
+without_genres,238,The Godfather,2,242,The Godfather: Part III,0.25190144175859674,2,8
+without_genres,238,The Godfather,3,261023,Black Mass,0.10750574503383908,1,8
+without_genres,238,The Godfather,4,227,The Outsiders,0.09090909090909091,0,8
+without_genres,238,The Godfather,5,769,GoodFellas,0.08722094130613421,2,8
+without_genres,238,The Godfather,6,364083,Mi America,0.08670910775073168,0,8
+without_genres,238,The Godfather,7,11699,The Bad Lieutenant: Port of Call - New Orleans,0.07492334687389131,0,8
+without_genres,238,The Godfather,8,18900,In Cold Blood,0.07288870545512217,1,8
+without_genres,238,The Godfather,9,4982,American Gangster,0.04970127755564186,1,8
+without_genres,238,The Godfather,10,4133,Blow,0.04767152562620183,1,8
+without_genres,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.45231201736820004,2,7
+without_genres,329,Jurassic Park,2,135397,Jurassic World,0.35095002162425093,2,7
+without_genres,329,Jurassic Park,3,331,Jurassic Park III,0.28792852316871903,2,7
+without_genres,329,Jurassic Park,4,644,A.I. Artificial Intelligence,0.10004319375895276,0,7
+without_genres,329,Jurassic Park,5,74,War of the Worlds,0.09090909090909091,1,7
+without_genres,329,Jurassic Park,6,18162,Land of the Lost,0.06554267836071967,1,7
+without_genres,329,Jurassic Park,7,13001,Stargate: The Ark of Truth,0.0040668247122377585,0,7
+without_genres,329,Jurassic Park,8,262504,Allegiant,0.0,0,7
+without_genres,329,Jurassic Park,9,299687,The 5th Wave,0.0,0,7
+without_genres,329,Jurassic Park,10,168,Star Trek IV: The Voyage Home,0.0,0,7
+without_keywords,19995,Avatar,1,54138,Star Trek Into Darkness,0.36702935133083725,2,8
+without_keywords,19995,Avatar,2,76757,Jupiter Ascending,0.36363636363636365,2,8
+without_keywords,19995,Avatar,3,188927,Star Trek Beyond,0.3512819650125232,1,8
+without_keywords,19995,Avatar,4,118340,Guardians of the Galaxy,0.3512819650125232,1,8
+without_keywords,19995,Avatar,5,333355,Star Wars: Clone Wars: Volume 1,0.3252462512726967,0,8
+without_keywords,19995,Avatar,6,679,Aliens,0.32421870514018153,1,8
+without_keywords,19995,Avatar,7,13475,Star Trek,0.31491832864888686,1,8
+without_keywords,19995,Avatar,8,698,Moonraker,0.28211832449869345,0,8
+without_keywords,19995,Avatar,9,869,Planet of the Apes,0.2727272727272727,2,8
+without_keywords,19995,Avatar,10,8077,Alien³,0.2578107784340436,0,8
+without_keywords,155,The Dark Knight,1,49026,The Dark Knight Rises,0.6609422036623184,2,5
+without_keywords,155,The Dark Knight,2,272,Batman Begins,0.5486615211558099,2,5
+without_keywords,155,The Dark Knight,3,7873,Harsh Times,0.4268963203486644,1,5
+without_keywords,155,The Dark Knight,4,1620,Hitman,0.383154895432172,0,5
+without_keywords,155,The Dark Knight,5,102362,Dead Man Down,0.37617411497235936,1,5
+without_keywords,155,The Dark Knight,6,136797,Need for Speed,0.36363636363636365,0,5
+without_keywords,155,The Dark Knight,7,41283,Faster,0.36363636363636365,0,5
+without_keywords,155,The Dark Knight,8,22314,In Too Deep,0.36363636363636365,1,5
+without_keywords,155,The Dark Knight,9,26039,Point Blank,0.36363636363636365,1,5
+without_keywords,155,The Dark Knight,10,22803,Law Abiding Citizen,0.362627363588425,2,5
+without_keywords,12,Finding Nemo,1,10681,WALL·E,0.4545454545454545,2,3
+without_keywords,12,Finding Nemo,2,10567,Dinosaur,0.3864435674558541,1,3
+without_keywords,12,Finding Nemo,3,14444,The Rugrats Movie,0.3841521228084588,1,3
+without_keywords,12,Finding Nemo,4,36696,Space Dogs,0.3831307767970658,0,3
+without_keywords,12,Finding Nemo,5,15655,The Tigger Movie,0.38160659214415626,1,3
+without_keywords,12,Finding Nemo,6,49953,A Turtle's Tale: Sammy's Adventures,0.3809522731197262,1,3
+without_keywords,12,Finding Nemo,7,12429,Ponyo,0.3758399440356989,2,3
+without_keywords,12,Finding Nemo,8,51162,Winnie the Pooh,0.36883360467107307,1,3
+without_keywords,12,Finding Nemo,9,11802,Space Chimps,0.36849554868614814,0,3
+without_keywords,12,Finding Nemo,10,20352,Despicable Me,0.36363636363636354,1,3
+without_keywords,238,The Godfather,1,240,The Godfather: Part II,0.6875693534386851,2,5
+without_keywords,238,The Godfather,2,242,The Godfather: Part III,0.4893512167716883,2,5
+without_keywords,238,The Godfather,3,227,The Outsiders,0.4545454545454545,0,5
+without_keywords,238,The Godfather,4,364083,Mi America,0.3932033849999627,0,5
+without_keywords,238,The Godfather,5,4133,Blow,0.37882266454558483,1,5
+without_keywords,238,The Godfather,6,119657,El Rey de Najayo,0.3783052470525839,1,5
+without_keywords,238,The Godfather,7,310706,Black Water Transit,0.37467120637598783,0,5
+without_keywords,238,The Godfather,8,261023,Black Mass,0.37388037666525215,1,5
+without_keywords,238,The Godfather,9,18900,In Cold Blood,0.37319838772387254,1,5
+without_keywords,238,The Godfather,10,769,GoodFellas,0.37235489597186117,2,5
+without_keywords,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.5283431677872721,2,1
+without_keywords,329,Jurassic Park,2,644,A.I. Artificial Intelligence,0.396951041369035,0,1
+without_keywords,329,Jurassic Park,3,74,War of the Worlds,0.3878169385191731,1,1
+without_keywords,329,Jurassic Park,4,135397,Jurassic World,0.3701665904608323,2,1
+without_keywords,329,Jurassic Park,5,13001,Stargate: The Ark of Truth,0.36770318834860133,0,1
+without_keywords,329,Jurassic Park,6,262504,Allegiant,0.36363636363636354,0,1
+without_keywords,329,Jurassic Park,7,299687,The 5th Wave,0.36363636363636354,0,1
+without_keywords,329,Jurassic Park,8,168,Star Trek IV: The Voyage Home,0.36363636363636354,0,1
+without_keywords,329,Jurassic Park,9,18162,Land of the Lost,0.3336093128560634,1,1
+without_keywords,329,Jurassic Park,10,331,Jurassic Park III,0.3257738862585043,2,1
+without_overview,19995,Avatar,1,54138,Star Trek Into Darkness,0.49593422377065705,2,1
+without_overview,19995,Avatar,2,76757,Jupiter Ascending,0.4625851214997621,2,1
+without_overview,19995,Avatar,3,679,Aliens,0.4613633286920793,1,1
+without_overview,19995,Avatar,4,118340,Guardians of the Galaxy,0.4296459782467657,1,1
+without_overview,19995,Avatar,5,869,Planet of the Apes,0.4261946496008778,2,1
+without_overview,19995,Avatar,6,188927,Star Trek Beyond,0.4178911972196085,1,1
+without_overview,19995,Avatar,7,333355,Star Wars: Clone Wars: Volume 1,0.4139494037810163,0,1
+without_overview,19995,Avatar,8,13475,Star Trek,0.409205658653852,1,1
+without_overview,19995,Avatar,9,698,Moonraker,0.40324997744803764,0,1
+without_overview,19995,Avatar,10,8077,Alien³,0.39745967404060567,0,1
+without_overview,155,The Dark Knight,1,49026,The Dark Knight Rises,0.6817278150627349,2,3
+without_overview,155,The Dark Knight,2,272,Batman Begins,0.6565067343728175,2,3
+without_overview,155,The Dark Knight,3,26039,Point Blank,0.442472535286649,1,3
+without_overview,155,The Dark Knight,4,136797,Need for Speed,0.43537033041598205,0,3
+without_overview,155,The Dark Knight,5,102362,Dead Man Down,0.41694832753450195,1,3
+without_overview,155,The Dark Knight,6,7873,Harsh Times,0.4,1,3
+without_overview,155,The Dark Knight,7,1620,Hitman,0.3914823392649559,0,3
+without_overview,155,The Dark Knight,8,22803,Law Abiding Citizen,0.3718958656333875,2,3
+without_overview,155,The Dark Knight,9,415,Batman & Robin,0.36641664353000053,1,3
+without_overview,155,The Dark Knight,10,41283,Faster,0.36363636363636365,0,3
+without_overview,12,Finding Nemo,1,10681,WALL·E,0.4545454545454545,2,4
+without_overview,12,Finding Nemo,2,20352,Despicable Me,0.4281615118079834,1,4
+without_overview,12,Finding Nemo,3,12429,Ponyo,0.42600590772237346,2,4
+without_overview,12,Finding Nemo,4,51162,Winnie the Pooh,0.3948351629109176,1,4
+without_overview,12,Finding Nemo,5,14444,The Rugrats Movie,0.3794747226062658,1,4
+without_overview,12,Finding Nemo,6,11802,Space Chimps,0.37821817567383403,0,4
+without_overview,12,Finding Nemo,7,10567,Dinosaur,0.36363636363636354,1,4
+without_overview,12,Finding Nemo,8,49953,A Turtle's Tale: Sammy's Adventures,0.36363636363636354,1,4
+without_overview,12,Finding Nemo,9,36696,Space Dogs,0.36363636363636354,0,4
+without_overview,12,Finding Nemo,10,15655,The Tigger Movie,0.36363636363636354,1,4
+without_overview,238,The Godfather,1,240,The Godfather: Part II,0.5694781396356053,2,1
+without_overview,238,The Godfather,2,242,The Godfather: Part III,0.4836386474798001,2,1
+without_overview,238,The Godfather,3,261023,Black Mass,0.460898095641314,1,1
+without_overview,238,The Godfather,4,227,The Outsiders,0.4545454545454545,0,1
+without_overview,238,The Godfather,5,769,GoodFellas,0.44213877260700013,2,1
+without_overview,238,The Godfather,6,11699,The Bad Lieutenant: Port of Call - New Orleans,0.43080185085693223,0,1
+without_overview,238,The Godfather,7,18900,In Cold Blood,0.4269630450039768,1,1
+without_overview,238,The Godfather,8,364083,Mi America,0.42077845002349606,0,1
+without_overview,238,The Godfather,9,4982,American Gangster,0.4133376411920054,1,1
+without_overview,238,The Godfather,10,4133,Blow,0.39612158835334416,1,1
+without_overview,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.681420908437456,2,1
+without_overview,329,Jurassic Park,2,331,Jurassic Park III,0.5127777505004312,2,1
+without_overview,329,Jurassic Park,3,135397,Jurassic World,0.4950429083899986,2,1
+without_overview,329,Jurassic Park,4,74,War of the Worlds,0.3878169385191731,1,1
+without_overview,329,Jurassic Park,5,644,A.I. Artificial Intelligence,0.3878169385191731,0,1
+without_overview,329,Jurassic Park,6,262504,Allegiant,0.36363636363636354,0,1
+without_overview,329,Jurassic Park,7,299687,The 5th Wave,0.36363636363636354,0,1
+without_overview,329,Jurassic Park,8,168,Star Trek IV: The Voyage Home,0.36363636363636354,0,1
+without_overview,329,Jurassic Park,9,13001,Stargate: The Ark of Truth,0.36363636363636354,0,1
+without_overview,329,Jurassic Park,10,18162,Land of the Lost,0.3257490607248207,1,1
+without_cast,19995,Avatar,1,54138,Star Trek Into Darkness,0.40219213161374473,2,3
+without_cast,19995,Avatar,2,76757,Jupiter Ascending,0.39141817973056797,2,3
+without_cast,19995,Avatar,3,679,Aliens,0.3724155670888361,1,3
+without_cast,19995,Avatar,4,869,Planet of the Apes,0.3606262419699735,2,3
+without_cast,19995,Avatar,5,333355,Star Wars: Clone Wars: Volume 1,0.3502648801223984,0,3
+without_cast,19995,Avatar,6,698,Moonraker,0.3491577939549263,0,3
+without_cast,19995,Avatar,7,13475,Star Trek,0.34625094193787476,1,3
+without_cast,19995,Avatar,8,118340,Guardians of the Galaxy,0.3327773662088017,1,3
+without_cast,19995,Avatar,9,188927,Star Trek Beyond,0.32283101303197637,1,3
+without_cast,19995,Avatar,10,8077,Alien³,0.31527491542020303,0,3
+without_cast,155,The Dark Knight,1,49026,The Dark Knight Rises,0.6284130927673528,2,1
+without_cast,155,The Dark Knight,2,272,Batman Begins,0.5532883996674728,2,1
+without_cast,155,The Dark Knight,3,26039,Point Blank,0.3743998375502414,1,1
+without_cast,155,The Dark Knight,4,136797,Need for Speed,0.36839027958275405,0,1
+without_cast,155,The Dark Knight,5,414,Batman Forever,0.36406805439071277,1,1
+without_cast,155,The Dark Knight,6,102362,Dead Man Down,0.3634112975058057,1,1
+without_cast,155,The Dark Knight,7,22803,Law Abiding Citizen,0.35505030048478325,2,1
+without_cast,155,The Dark Knight,8,415,Batman & Robin,0.3524257416513673,1,1
+without_cast,155,The Dark Knight,9,1620,Hitman,0.3477699678206467,0,1
+without_cast,155,The Dark Knight,10,7873,Harsh Times,0.33045073260271607,1,1
+without_cast,12,Finding Nemo,1,10681,WALL·E,0.3846153846153845,2,0
+without_cast,12,Finding Nemo,2,12429,Ponyo,0.3707926437952921,2,0
+without_cast,12,Finding Nemo,3,20352,Despicable Me,0.3622905099913706,1,0
+without_cast,12,Finding Nemo,4,51162,Winnie the Pooh,0.33848895718476135,1,0
+without_cast,12,Finding Nemo,5,14444,The Rugrats Movie,0.3384534845816901,1,0
+without_cast,12,Finding Nemo,6,10567,Dinosaur,0.32699071092418425,1,0
+without_cast,12,Finding Nemo,7,36696,Space Dogs,0.324187580366748,0,0
+without_cast,12,Finding Nemo,8,11802,Space Chimps,0.3241423821507542,0,0
+without_cast,12,Finding Nemo,9,15655,The Tigger Movie,0.3228978856604399,1,0
+without_cast,12,Finding Nemo,10,49953,A Turtle's Tale: Sammy's Adventures,0.3223442311013068,1,0
+without_cast,238,The Godfather,1,240,The Godfather: Part II,0.5559632633705535,2,0
+without_cast,238,The Godfather,2,242,The Godfather: Part III,0.43360786023503606,2,0
+without_cast,238,The Godfather,3,261023,Black Mass,0.3986587073363253,1,0
+without_cast,238,The Godfather,4,227,The Outsiders,0.3846153846153845,0,0
+without_cast,238,The Godfather,5,769,GoodFellas,0.38149464264365196,2,0
+without_cast,238,The Godfather,6,364083,Mi America,0.38106155271215747,0,0
+without_cast,238,The Godfather,7,11699,The Bad Lieutenant: Port of Call - New Orleans,0.3710889858163695,0,0
+without_cast,238,The Godfather,8,18900,In Cold Blood,0.3693673661543341,1,0
+without_cast,238,The Godfather,9,4982,American Gangster,0.34974723485477377,1,0
+without_cast,238,The Godfather,10,4133,Blow,0.34802975245294,1,0
+without_cast,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.5724168088277772,2,0
+without_cast,329,Jurassic Park,2,135397,Jurassic World,0.5145290278933039,2,0
+without_cast,329,Jurassic Park,3,331,Jurassic Park III,0.4304339138155461,2,0
+without_cast,329,Jurassic Park,4,644,A.I. Artificial Intelligence,0.33588165038918344,0,0
+without_cast,329,Jurassic Park,5,74,War of the Worlds,0.328152794131608,1,0
+without_cast,329,Jurassic Park,6,13001,Stargate: The Ark of Truth,0.31113346706420114,0,0
+without_cast,329,Jurassic Park,7,262504,Allegiant,0.3076923076923076,0,0
+without_cast,329,Jurassic Park,8,299687,The 5th Wave,0.3076923076923076,0,0
+without_cast,329,Jurassic Park,9,168,Star Trek IV: The Voyage Home,0.3076923076923076,0,0
+without_cast,329,Jurassic Park,10,18162,Land of the Lost,0.3066889065906785,1,0
+without_director,19995,Avatar,1,54138,Star Trek Into Darkness,0.40203555078419156,2,1
+without_director,19995,Avatar,2,76757,Jupiter Ascending,0.3634597383212417,2,1
+without_director,19995,Avatar,3,118340,Guardians of the Galaxy,0.33757898290817306,1,1
+without_director,19995,Avatar,4,869,Planet of the Apes,0.334867224686404,2,1
+without_director,19995,Avatar,5,188927,Star Trek Beyond,0.3283430835296924,1,1
+without_director,19995,Avatar,6,333355,Star Wars: Clone Wars: Volume 1,0.32524596011365564,0,1
+without_director,19995,Avatar,7,698,Moonraker,0.3242179515295744,0,1
+without_director,19995,Avatar,8,13475,Star Trek,0.3215187317994551,1,1
+without_director,19995,Avatar,9,8077,Alien³,0.32132670717590284,0,1
+without_director,19995,Avatar,10,679,Aliens,0.3029573122967764,1,1
+without_director,155,The Dark Knight,1,49026,The Dark Knight Rises,0.5692407289982561,2,0
+without_director,155,The Dark Knight,2,272,Batman Begins,0.4994820854055105,2,0
+without_director,155,The Dark Knight,3,26039,Point Blank,0.34765699201093847,1,0
+without_director,155,The Dark Knight,4,136797,Need for Speed,0.3420766881839859,0,0
+without_director,155,The Dark Knight,5,414,Batman Forever,0.3380631933628047,1,0
+without_director,155,The Dark Knight,6,102362,Dead Man Down,0.33745334768396246,1,0
+without_director,155,The Dark Knight,7,7873,Harsh Times,0.33541853741680777,1,0
+without_director,155,The Dark Knight,8,22803,Law Abiding Citizen,0.3296895647358702,2,0
+without_director,155,The Dark Knight,9,415,Batman & Robin,0.3272524743905554,1,0
+without_director,155,The Dark Knight,10,1620,Hitman,0.32292925583345766,0,0
+without_director,12,Finding Nemo,1,12429,Ponyo,0.3443074549527712,2,1
+without_director,12,Finding Nemo,2,20352,Despicable Me,0.33641261642055836,1,1
+without_director,12,Finding Nemo,3,51162,Winnie the Pooh,0.314311174528707,1,1
+without_director,12,Finding Nemo,4,14444,The Rugrats Movie,0.31427823568299795,1,1
+without_director,12,Finding Nemo,5,10567,Dinosaur,0.30363423157245684,1,1
+without_director,12,Finding Nemo,6,36696,Space Dogs,0.301031324626266,0,1
+without_director,12,Finding Nemo,7,11802,Space Chimps,0.30098935485427175,0,1
+without_director,12,Finding Nemo,8,15655,The Tigger Movie,0.2998337509704085,1,1
+without_director,12,Finding Nemo,9,49953,A Turtle's Tale: Sammy's Adventures,0.29931964316549914,1,1
+without_director,12,Finding Nemo,10,10681,WALL·E,0.28571428571428564,2,1
+without_director,238,The Godfather,1,240,The Godfather: Part II,0.501965887415514,2,1
+without_director,238,The Godfather,2,261023,Black Mass,0.3701830853837306,1,1
+without_director,238,The Godfather,3,242,The Godfather: Part III,0.35977872736110494,2,1
+without_director,238,The Godfather,4,769,GoodFellas,0.3542450253119625,2,1
+without_director,238,The Godfather,5,364083,Mi America,0.3538428703755748,0,1
+without_director,238,The Godfather,6,11699,The Bad Lieutenant: Port of Call - New Orleans,0.34458262968662884,0,1
+without_director,238,The Godfather,7,18900,In Cold Blood,0.34298398285759596,1,1
+without_director,238,The Godfather,8,4982,American Gangster,0.32476528950800426,1,1
+without_director,238,The Godfather,9,4133,Blow,0.3231704844205871,1,1
+without_director,238,The Godfather,10,119657,El Rey de Najayo,0.29723983696988737,1,1
+without_director,329,Jurassic Park,1,330,The Lost World: Jurassic Park,0.5172441796257932,2,2
+without_director,329,Jurassic Park,2,135397,Jurassic World,0.4777769544723536,2,2
+without_director,329,Jurassic Park,3,331,Jurassic Park III,0.42826006282872137,2,2
+without_director,329,Jurassic Park,4,13001,Stargate: The Ark of Truth,0.2889096479881868,0,2
+without_director,329,Jurassic Park,5,262504,Allegiant,0.28571428571428564,0,2
+without_director,329,Jurassic Park,6,299687,The 5th Wave,0.28571428571428564,0,2
+without_director,329,Jurassic Park,7,168,Star Trek IV: The Voyage Home,0.28571428571428564,0,2
+without_director,329,Jurassic Park,8,18162,Land of the Lost,0.28478255611991576,1,2
+without_director,329,Jurassic Park,9,644,A.I. Artificial Intelligence,0.24046153250424177,0,2
+without_director,329,Jurassic Park,10,74,War of the Worlds,0.23328473740792172,1,2

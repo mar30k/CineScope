@@ -7,6 +7,7 @@ export interface MovieSearchResult {
   movie_id: number
   title: string
   year: number | null
+  genres: string[]
   image?: MovieImage | null
 }
 

@@ -19,7 +19,10 @@ Matching levels, strongest first
 A weaker level can never outrank a stronger one: the level is the first
 component of the sort key. Within a level the ordering is deterministic
 (shorter/better matches first, then title, then movie id), so duplicate
-titles stay separate and results are stable across requests.
+titles stay separate and results are stable across requests. Contiguous
+phrase matches that start on a word boundary are preferred over the same
+fragment buried inside a word, so "apes" surfaces "Planet of the Apes"
+before "The Vatican Tapes".
 
 Ranking scores are relevance tiers only. Nothing here touches the KNN
 features, the recommendation scorer or the catalogue itself.
@@ -87,6 +90,16 @@ def _strip_leading_stopwords(normalized: str) -> str:
     while start < len(tokens) - 1 and tokens[start] in STOPWORDS:
         start += 1
     return " ".join(tokens[start:])
+
+
+def _phrase_starts_at_word(text: str, phrase: str) -> bool:
+    """Whether ``phrase`` occurs in ``text`` at the start of a word."""
+    start = text.find(phrase)
+    while start != -1:
+        if start == 0 or text[start - 1] == " ":
+            return True
+        start = text.find(phrase, start + 1)
+    return False
 
 
 @dataclass(frozen=True, slots=True)
@@ -175,7 +188,7 @@ class MovieSearchIndex:
             and len(query_tokens) >= 1
         )
 
-        ranked: list[tuple[int, int, int, int, str, int]] = []
+        ranked: list[tuple[int, int, int, int, int, str, int]] = []
         for entry in self._entries:
             tier = self._tier(
                 entry,
@@ -192,6 +205,15 @@ class MovieSearchIndex:
             # A query year never filters; it only separates matching titles.
             year_miss = 0 if year is None or entry.year == year else 1
 
+            # Prefer a phrase that begins a word ("apes" in "Planet of the
+            # Apes") over the same letters inside a word ("Tapes").
+            boundary_miss = 0
+            if tier == 2:
+                boundary_miss = 0 if (
+                    _phrase_starts_at_word(entry.normalized, normalized)
+                    or _phrase_starts_at_word(entry.core, normalized)
+                ) else 1
+
             if tier == 4:
                 score = self._fuzzy_score(query_tokens, entry)
                 secondary = -int(round(score * 1000))
@@ -207,6 +229,7 @@ class MovieSearchIndex:
                 (
                     tier,
                     year_miss,
+                    boundary_miss,
                     secondary,
                     tertiary,
                     entry.normalized,
@@ -215,7 +238,7 @@ class MovieSearchIndex:
             )
 
         ranked.sort()
-        return [row[5] for row in ranked[:limit]]
+        return [row[6] for row in ranked[:limit]]
 
     # ------------------------------------------------------------ helpers
     def _tier(

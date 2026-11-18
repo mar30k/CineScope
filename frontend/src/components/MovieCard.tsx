@@ -1,5 +1,4 @@
 import type { MovieSearchResult } from '../types'
-import { useMovieDetails } from '../hooks/useMovieDetails'
 import { MoviePoster } from './MoviePoster'
 
 interface MovieCardProps {
@@ -9,12 +8,8 @@ interface MovieCardProps {
 }
 
 export function MovieCard({ movie, selected, onClick }: MovieCardProps) {
-  const detailsState = useMovieDetails(movie.movie_id)
-  const details = detailsState.kind === 'ready' ? detailsState.details : null
-
-  const year = movie.year ?? details?.year ?? null
-  const genres = details?.genres.slice(0, 3) ?? []
-  const posterUrl = movie.image?.poster_url ?? details?.image?.poster_url ?? null
+  const genres = movie.genres.slice(0, 3)
+  const posterUrl = movie.image?.poster_url ?? null
 
   return (
     <button
@@ -27,7 +22,9 @@ export function MovieCard({ movie, selected, onClick }: MovieCardProps) {
       <span className="movie-card-body">
         <span className="movie-card-top">
           <span className="movie-title">{movie.title}</span>
-          {year != null && <span className="movie-year">{year}</span>}
+          {movie.year != null && (
+            <span className="movie-year">{movie.year}</span>
+          )}
         </span>
 
         {genres.length > 0 && (

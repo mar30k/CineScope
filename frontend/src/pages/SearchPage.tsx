@@ -1,20 +1,21 @@
-import { useCallback, useState } from 'react'
-import type { MovieSearchResponse } from '../types'
-import { api } from '../api/client'
-import { useMovieSelection } from '../hooks/useMovieSelection'
-import { SearchBar } from '../components/SearchBar'
-import { MovieCard } from '../components/MovieCard'
-import { ErrorMessage } from '../components/ErrorMessage'
-import { EmptyState } from '../components/EmptyState'
-import { DiscoveryToolbar } from '../components/DiscoveryToolbar'
-import { MovieDetailsView } from '../components/MovieDetailsView'
-import tmdbLogo from '../assets/tmdb-logo.svg'
+import { useCallback, useState } from "react";
+import type { MovieSearchResponse } from "../types";
+import { api } from "../api/client";
+import { useMovieSelection } from "../hooks/useMovieSelection";
+import { useSearchSuggestions } from "../hooks/useSearchSuggestions";
+import { SearchBar } from "../components/SearchBar";
+import { MovieCard } from "../components/MovieCard";
+import { ErrorMessage } from "../components/ErrorMessage";
+import { EmptyState } from "../components/EmptyState";
+import { DiscoveryToolbar } from "../components/DiscoveryToolbar";
+import { MovieDetailsView } from "../components/MovieDetailsView";
+import tmdbLogo from "../assets/tmdb-logo.svg";
 
 type SearchState =
-  | { kind: 'idle' }
-  | { kind: 'searching' }
-  | { kind: 'results'; response: MovieSearchResponse }
-  | { kind: 'search-error'; message: string }
+  | { kind: "idle" }
+  | { kind: "searching" }
+  | { kind: "results"; response: MovieSearchResponse }
+  | { kind: "search-error"; message: string };
 
 function searchResultsSkeleton() {
   return (
@@ -33,12 +34,13 @@ function searchResultsSkeleton() {
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export function SearchPage() {
-  const [query, setQuery] = useState('')
-  const [searchState, setSearchState] = useState<SearchState>({ kind: 'idle' })
+  const [query, setQuery] = useState("");
+  const [searchState, setSearchState] = useState<SearchState>({ kind: "idle" });
+  const suggestions = useSearchSuggestions(query);
 
   const {
     view,
@@ -49,52 +51,54 @@ export function SearchPage() {
     goBack,
     backToResults,
     history,
-  } = useMovieSelection()
+  } = useMovieSelection();
 
   const runSearch = useCallback(
     async (searchQuery: string) => {
-      setSearchState({ kind: 'searching' })
-      backToResults()
+      setSearchState({ kind: "searching" });
+      backToResults();
       try {
-        const response = await api.searchMovies(searchQuery, 10)
-        setSearchState({ kind: 'results', response })
-        setSavedResults(response)
+        const response = await api.searchMovies(searchQuery, 10);
+        setSearchState({ kind: "results", response });
+        setSavedResults(response);
       } catch (error) {
         const message =
           error instanceof Error
             ? error.message
-            : 'Failed to reach the movie search service.'
-        setSearchState({ kind: 'search-error', message })
+            : "Failed to reach the movie search service.";
+        setSearchState({ kind: "search-error", message });
       }
     },
-    [backToResults, setSavedResults]
-  )
+    [backToResults, setSavedResults],
+  );
 
   const handleClear = useCallback(() => {
-    setQuery('')
-    setSearchState({ kind: 'idle' })
-    setSavedResults(null)
-    backToResults()
-  }, [backToResults, setSavedResults])
+    setQuery("");
+    setSearchState({ kind: "idle" });
+    setSavedResults(null);
+    backToResults();
+  }, [backToResults, setSavedResults]);
 
   function handleSubmit() {
-    const trimmed = query.trim()
+    const trimmed = query.trim();
     if (trimmed.length < 2) {
       setSearchState({
-        kind: 'search-error',
-        message: 'Please enter at least 2 characters.',
-      })
-      return
+        kind: "search-error",
+        message: "Please enter at least 2 characters.",
+      });
+      return;
     }
-    runSearch(trimmed)
+    runSearch(trimmed);
   }
 
   const currentMovie =
-    view === null ? null : 'movie' in view ? view.movie : view.entry.movie
+    view === null ? null : "movie" in view ? view.movie : view.entry.movie;
 
   return (
     <main className="app">
-      <header className={`app-header ${view !== null ? 'app-header-compact' : ''}`}>
+      <header
+        className={`app-header ${view !== null ? "app-header-compact" : ""}`}
+      >
         <div className="brand">
           <span className="brand-mark" aria-hidden="true">
             C
@@ -103,8 +107,8 @@ export function SearchPage() {
             <h1 className="brand-name">CineScope</h1>
             <p className="brand-tagline">
               {view === null
-                ? 'Follow the connections between films.'
-                : 'A KNN-powered discovery workspace.'}
+                ? "Follow the connections between films."
+                : "A KNN-powered discovery workspace."}
             </p>
           </div>
         </div>
@@ -121,7 +125,7 @@ export function SearchPage() {
                 Search <strong>“{savedResults.query}”</strong>
               </>
             ) : (
-              'Discovery'
+              "Discovery"
             )}
           </div>
         )}
@@ -143,16 +147,18 @@ export function SearchPage() {
               onChange={setQuery}
               onSubmit={handleSubmit}
               onClear={handleClear}
-              disabled={searchState.kind === 'searching'}
+              onSuggestionSelect={selectSearchResult}
+              suggestions={suggestions}
+              disabled={searchState.kind === "searching"}
             />
           </section>
 
           <section
             className="search-results-area"
             aria-live="polite"
-            aria-busy={searchState.kind === 'searching'}
+            aria-busy={searchState.kind === "searching"}
           >
-            {searchState.kind === 'idle' && (
+            {searchState.kind === "idle" && (
               <div className="search-empty">
                 <div className="search-empty-art" aria-hidden="true">
                   <span />
@@ -167,13 +173,13 @@ export function SearchPage() {
               </div>
             )}
 
-            {searchState.kind === 'searching' && searchResultsSkeleton()}
+            {searchState.kind === "searching" && searchResultsSkeleton()}
 
-            {searchState.kind === 'search-error' && (
+            {searchState.kind === "search-error" && (
               <ErrorMessage message={searchState.message} />
             )}
 
-            {searchState.kind === 'results' &&
+            {searchState.kind === "results" &&
               (searchState.response.results.length === 0 ? (
                 <EmptyState query={searchState.response.query} />
               ) : (
@@ -186,8 +192,8 @@ export function SearchPage() {
                       </h2>
                     </div>
                     <span className="results-count">
-                      {searchState.response.count}{' '}
-                      {searchState.response.count === 1 ? 'film' : 'films'}
+                      {searchState.response.count}{" "}
+                      {searchState.response.count === 1 ? "film" : "films"}
                     </span>
                   </div>
 
@@ -217,7 +223,7 @@ export function SearchPage() {
             />
           )}
 
-          {view.kind === 'details-loading' && (
+          {view.kind === "details-loading" && (
             <div className="discovery-state-card" role="status">
               <span className="loading-pulse" aria-hidden="true" />
               <h2>Loading {view.movie.title}</h2>
@@ -228,7 +234,7 @@ export function SearchPage() {
             </div>
           )}
 
-          {view.kind === 'details-error' && (
+          {view.kind === "details-error" && (
             <div className="discovery-state-card">
               <ErrorMessage message={view.message} />
               <p className="discovery-state-hint">
@@ -238,23 +244,19 @@ export function SearchPage() {
             </div>
           )}
 
-          {(view.kind === 'recommendations-loading' ||
-            view.kind === 'recommendations' ||
-            view.kind === 'recommendations-error') && (
+          {(view.kind === "recommendations-loading" ||
+            view.kind === "recommendations" ||
+            view.kind === "recommendations-error") && (
             <MovieDetailsView
               details={view.entry.details}
               recommendations={
-                view.kind === 'recommendations'
+                view.kind === "recommendations"
                   ? view.entry.recommendations
                   : undefined
               }
-              isLoadingRecommendations={
-                view.kind === 'recommendations-loading'
-              }
+              isLoadingRecommendations={view.kind === "recommendations-loading"}
               recommendationsError={
-                view.kind === 'recommendations-error'
-                  ? view.message
-                  : undefined
+                view.kind === "recommendations-error" ? view.message : undefined
               }
               onSelectRecommendation={selectRecommendation}
             />
@@ -287,5 +289,5 @@ export function SearchPage() {
         </div>
       </footer>
     </main>
-  )
+  );
 }

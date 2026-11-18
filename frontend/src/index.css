@@ -272,6 +272,139 @@ button:focus-visible {
   color: var(--text);
 }
 
+.search-suggestions {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: rgba(11, 16, 26, 0.98);
+  box-shadow: var(--shadow-card);
+}
+
+.search-suggestion-list {
+  max-height: min(360px, 55vh);
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.search-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.search-suggestion:hover,
+.search-suggestion.active {
+  border-color: rgba(146, 163, 255, 0.24);
+  background: var(--panel-hover);
+}
+
+.search-suggestion-poster {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 40px;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background:
+    radial-gradient(
+      circle at 30% 20%,
+      rgba(146, 163, 255, 0.2),
+      transparent 60%
+    ),
+    linear-gradient(160deg, #1a2336, #0b101a);
+}
+
+.search-suggestion-poster-mark {
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.search-suggestion-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.search-suggestion-title-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  min-width: 0;
+}
+
+.search-suggestion-title {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-suggestion-year {
+  flex: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.search-suggestion-genres {
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.search-suggestion-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 14px;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.search-suggestion-error {
+  color: var(--error);
+}
+
+.search-suggestion-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 14px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+}
+
 .search-button {
   min-height: 56px;
   padding: 0 26px;
@@ -1487,6 +1620,14 @@ button:focus-visible {
 
   .search-button {
     min-height: 50px;
+  }
+
+  .search-suggestion-list {
+    max-height: min(320px, 50vh);
+  }
+
+  .search-suggestion-hint {
+    display: none;
   }
 
   .movie-grid {

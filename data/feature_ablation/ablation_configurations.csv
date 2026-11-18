@@ -1,0 +1,7 @@
+configuration,dropped_block,blocks,weights,denominator,n_blocks
+full,,genres+keywords+overview+cast+director,genres=1; keywords=1; overview=1; cast=0.5; director=0.25,3.75,5
+without_genres,genres,keywords+overview+cast+director,keywords=1; overview=1; cast=0.5; director=0.25,2.75,4
+without_keywords,keywords,genres+overview+cast+director,genres=1; overview=1; cast=0.5; director=0.25,2.75,4
+without_overview,overview,genres+keywords+cast+director,genres=1; keywords=1; cast=0.5; director=0.25,2.75,4
+without_cast,cast,genres+keywords+overview+director,genres=1; keywords=1; overview=1; director=0.25,3.25,4
+without_director,director,genres+keywords+overview+cast,genres=1; keywords=1; overview=1; cast=0.5,3.5,4

@@ -1,0 +1,39 @@
+# Render Blueprint for the CineScope API.
+#
+# Only the backend is described here: the React frontend is deployed
+# separately as a static site (Vercel or equivalent) and points at this
+# service through VITE_API_BASE_URL. No database, no cron job, no extra
+# services.
+#
+# Values marked `sync: false` are prompted for in the Render dashboard and are
+# never stored in this file.
+
+services:
+  - type: web
+    name: cinescope-api
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    # `python -m api` listens on the injected PORT with a single worker.
+    startCommand: python -m api
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      # The artifact was fitted under this interpreter; pin it so the pickled
+      # scikit-learn/numpy objects stay compatible.
+      - key: PYTHON_VERSION
+        value: "3.11.4"
+      # Public frontend origin(s), comma-separated. Prompted at setup.
+      - key: CORS_ALLOW_ORIGINS
+        sync: false
+      # Public Hugging Face Hub repo holding cinescope_model.joblib.
+      - key: CINESCOPE_MODEL_REPO
+        sync: false
+      - key: CINESCOPE_MODEL_FILENAME
+        value: cinescope_model.joblib
+      - key: CINESCOPE_MODEL_REVISION
+        value: main
+      # Optional: artwork stays disabled when this is unset.
+      - key: TMDB_API_KEY
+        sync: false

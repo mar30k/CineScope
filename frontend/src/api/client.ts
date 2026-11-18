@@ -43,8 +43,8 @@ async function get<T>(
 }
 
 export const api = {
-  searchMovies: (query: string, limit = 10) =>
-    get<MovieSearchResponse>('/movies/search', { q: query, limit }),
+  searchMovies: (query: string, limit = 10, signal?: AbortSignal) =>
+    get<MovieSearchResponse>('/movies/search', { q: query, limit }, signal),
 
   getMovieDetails: (movieId: number, signal?: AbortSignal) =>
     get<MovieDetails>(`/movies/${movieId}`, undefined, signal),

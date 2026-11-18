@@ -1,0 +1,31 @@
+configuration,query_id,query_title,n_ranked,n_judged_pool,unjudged_in_full_top10,mean_graded_relevance,P@5,P@10,NDCG@5,NDCG@10
+full,19995,Avatar,10,10,0,1.0,1.0,0.7,0.9323,0.9341
+full,155,The Dark Knight,10,13,0,1.1,0.8,0.8,0.8016,0.9061
+full,12,Finding Nemo,10,13,0,1.0,1.0,0.8,1.0,0.9521
+full,238,The Godfather,10,13,0,1.0,0.8,0.7,0.9089,0.9079
+full,329,Jurassic Park,10,10,0,0.8,0.8,0.5,0.9403,0.9804
+without_genres,19995,Avatar,10,10,6,1.0,0.6,0.7,0.5259,0.7252
+without_genres,155,The Dark Knight,10,13,6,1.1,1.0,0.8,0.9686,0.9343
+without_genres,12,Finding Nemo,10,13,10,1.0,1.0,0.8,1.0,0.9521
+without_genres,238,The Godfather,10,13,8,1.0,0.8,0.7,0.9089,0.9079
+without_genres,329,Jurassic Park,10,10,7,0.8,0.8,0.5,0.9403,0.9897
+without_keywords,19995,Avatar,10,10,8,1.0,0.8,0.7,0.8077,0.9388
+without_keywords,155,The Dark Knight,10,13,5,1.0,0.8,0.7,0.8016,0.8529
+without_keywords,12,Finding Nemo,10,13,3,1.0,0.8,0.8,0.7275,0.8619
+without_keywords,238,The Godfather,10,13,5,1.0,0.6,0.7,0.7322,0.8666
+without_keywords,329,Jurassic Park,10,10,1,0.8,0.6,0.5,0.6646,0.8266
+without_overview,19995,Avatar,10,10,1,1.0,1.0,0.7,0.9686,0.9691
+without_overview,155,The Dark Knight,10,13,3,1.0,0.8,0.7,0.8016,0.867
+without_overview,12,Finding Nemo,10,13,4,1.0,1.0,0.8,0.9578,0.9162
+without_overview,238,The Godfather,10,13,1,1.0,0.8,0.7,0.9089,0.9101
+without_overview,329,Jurassic Park,10,10,1,0.8,0.8,0.5,0.9463,0.9864
+without_cast,19995,Avatar,10,10,3,1.0,0.8,0.7,0.9271,0.9664
+without_cast,155,The Dark Knight,10,13,1,1.1,0.8,0.8,0.8016,0.9089
+without_cast,12,Finding Nemo,10,13,0,1.0,1.0,0.8,1.0,0.9521
+without_cast,238,The Godfather,10,13,0,1.0,0.8,0.7,0.9089,0.9079
+without_cast,329,Jurassic Park,10,10,0,0.8,0.8,0.5,0.9403,0.9804
+without_director,19995,Avatar,10,10,1,1.0,1.0,0.7,0.9808,0.9717
+without_director,155,The Dark Knight,10,13,0,1.1,0.8,0.8,0.8016,0.9061
+without_director,12,Finding Nemo,10,13,1,1.0,1.0,0.8,0.7968,0.8558
+without_director,238,The Godfather,10,13,1,1.1,0.8,0.8,0.8908,0.9326
+without_director,329,Jurassic Park,10,10,2,0.8,0.6,0.5,0.8866,0.9705

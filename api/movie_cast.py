@@ -14,11 +14,15 @@ import logging
 from dataclasses import dataclass
 from pathlib import Path
 
+from api.settings import credits_path
 from src.data.processor import parse_json_column
 
 logger = logging.getLogger("cinescope.api.cast")
 
-CREDITS_PATH = Path("data/tmdb-5000/tmdb_5000_credits.csv")
+# Anchored to the repository root rather than the working directory: hosted
+# processes are not guaranteed to start in the directory their command was
+# written for. CINESCOPE_CREDITS_PATH can point somewhere else (a mount).
+CREDITS_PATH = credits_path()
 MAX_CAST_MEMBERS = 8
 
 
@@ -81,11 +85,12 @@ class MovieCastService:
         return list(self._credits.get(key, ()))
 
     @classmethod
-    def load(cls, path: str | Path = CREDITS_PATH) -> "MovieCastService":
+    def load(cls, path: str | Path | None = None) -> "MovieCastService":
         """Load the existing credits CSV, tolerating missing or malformed rows."""
+        source = Path(path) if path is not None else CREDITS_PATH
         credits: dict[int, tuple[CastCredit, ...]] = {}
         try:
-            with Path(path).open(encoding="utf-8", newline="") as handle:
+            with source.open(encoding="utf-8", newline="") as handle:
                 for row in csv.DictReader(handle):
                     try:
                         movie_id = int(row.get("movie_id") or "")
@@ -98,7 +103,7 @@ class MovieCastService:
             logger.warning(
                 "Cast metadata unavailable at %s (%s). Details will return an "
                 "empty cast list.",
-                path,
+                source,
                 error,
             )
             return cls({})

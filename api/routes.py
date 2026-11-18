@@ -187,7 +187,7 @@ def get_recommendations(
     "/movies/search",
     response_model=MovieSearchResponse,
     tags=["movies"],
-    summary="Search the catalogue by partial title",
+    summary="Search the catalogue by title",
     responses={422: {"description": "Empty query or invalid limit."}},
 )
 def search_movies(
@@ -245,6 +245,7 @@ def search_movies(
             movie_id=info["movie_id"],
             title=info["title"],
             year=info["year"],
+            genres=info["genres"],
             image=_movie_image(images.get(int(info["movie_id"]))),
         )
         for info in selected

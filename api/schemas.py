@@ -84,6 +84,7 @@ class MovieSummary(BaseModel):
     year: int | None = Field(
         default=None, description="Release year, when the catalogue records one."
     )
+    genres: list[str] = Field(default_factory=list, description="Genre names.")
     image: MovieImage | None = Field(
         default=None,
         description="TMDB artwork when a confident title/year match exists.",
@@ -124,13 +125,14 @@ class MovieDetails(BaseModel):
 
 
 class MovieSearchResponse(BaseModel):
-    """Case-insensitive partial-title matches."""
+    """Case-insensitive ranked title matches."""
 
     query: str = Field(description="The search string as submitted.")
     count: int = Field(description="Number of matches returned.")
     results: list[MovieSummary] = Field(
         description=(
-            "Matches, exact title first, then titles starting with the query, "
-            "then titles containing it; alphabetical within each group."
+            "Matches ordered by relevance: exact title, title prefix, phrase, "
+            "order-independent token match, then typo-tolerant fuzzy match. "
+            "Duplicate titles remain separate catalogue entries."
         )
     )

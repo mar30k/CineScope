@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-type PosterVariant = 'card' | 'hero' | 'recommendation'
+type PosterVariant = 'card' | 'hero' | 'recommendation' | 'suggestion'
 
 interface MoviePosterProps {
   title: string
@@ -27,6 +27,11 @@ const POSTER_VARIANTS: Record<
     container: 'recommendation-poster',
     mark: 'recommendation-poster-mark',
     label: 'recommendation-poster-label',
+  },
+  suggestion: {
+    container: 'search-suggestion-poster',
+    mark: 'search-suggestion-poster-mark',
+    label: null,
   },
 }
 
