@@ -51,5 +51,4 @@ desktop.ini
 /frontend/dist/
 /frontend/.env.local
 /frontend/.env
-/frontend/package-lock.json
 

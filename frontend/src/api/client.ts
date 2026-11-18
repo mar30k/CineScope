@@ -1,8 +1,17 @@
 import type { MovieSearchResponse, MovieDetails, RecommendationResponse } from '../types'
 
-const baseUrl = import.meta.env.VITE_API_BASE_URL
+// Configured per environment via VITE_API_BASE_URL (.env.local locally, the
+// host's environment variables for a production build). Trailing slashes are
+// trimmed so that `${baseUrl}${path}` never produces a double slash.
+const baseUrl = import.meta.env.VITE_API_BASE_URL?.trim().replace(/\/+$/, '')
 
 function url(path: string, params?: Record<string, string | number>) {
+  if (!baseUrl) {
+    throw new Error(
+      'VITE_API_BASE_URL is not set. Copy .env.example to .env.local for local development, or set it in the deployment environment and rebuild.',
+    )
+  }
+
   const u = new URL(`${baseUrl}${path}`)
   if (params) {
     for (const [key, value] of Object.entries(params)) {
