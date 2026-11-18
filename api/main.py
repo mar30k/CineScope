@@ -1,11 +1,21 @@
 """
 CineScope API.
 
+Development:
+
     uvicorn api.main:app --reload --port 8000 --env-file .env
+
+Hosted (Render and similar):
+
+    python -m api          # reads PORT, binds 0.0.0.0, one worker
 
 The application is deliberately separate from ``src/``: ``src`` holds the
 library (data, features, model) and this package holds only the HTTP layer.
-Run from the project root so ``src`` resolves as a namespace package.
+Run from the repository root so ``src`` resolves as a namespace package.
+
+Deployment settings are read from the environment in ``api.settings``: allowed
+CORS origins, where the model artifact lives and where to download it from.
+Paths are anchored to the repository root rather than the working directory.
 
 Layout
 ------
@@ -37,10 +47,17 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from api.artifact_sync import ArtifactUnavailable, ensure_artifact
 from api.dependencies import get_model
 from api.movie_cast import MovieCastService
 from api.routes import router as recommendations_router
 from api.search import MovieSearchIndex
+from api.settings import (
+    allowed_origin_regex,
+    allowed_origins,
+    artifact_path,
+    model_source,
+)
 from api.tmdb_images import TmdbImageService
 from src.config import CONFIG_NAME, MODEL_NAME, MODEL_VERSION, SCORING_STRATEGY
 from src.models.recommender import MovieRecommender
@@ -57,16 +74,33 @@ class ModelLoadError(RuntimeError):
 async def lifespan(app: FastAPI):
     """Load the model once on startup, release it on shutdown."""
     logger.info("Loading %s %s ...", MODEL_NAME, MODEL_VERSION)
+
+    # The artifact is a build output and is not in version control, so on a
+    # hosted instance it is normally fetched once from the public model
+    # repository. An artifact already on disk is reused and never re-fetched.
+    artifact = artifact_path()
+    source = model_source()
     try:
-        model = MovieRecommender.load()
-    except Exception as error:
-        # Any failure here - missing file, corrupt joblib, artifact format
-        # mismatch - must abort startup. Re-raised as one typed error so the
-        # cause is obvious in the boot log instead of surfacing later as a
-        # 500 on the first request.
+        status = ensure_artifact(artifact, source)
+    except ArtifactUnavailable as error:
         raise ModelLoadError(
-            f"CineScope cannot start: the recommendation model failed to "
-            f"load ({type(error).__name__}: {error}). "
+            f"CineScope cannot start: {error}"
+        ) from error
+    logger.info(
+        "Model artifact %s (%s)", "reused" if status == "reused" else "downloaded",
+        artifact,
+    )
+
+    try:
+        model = MovieRecommender.load(artifact)
+    except Exception as error:
+        # Any failure here - corrupt joblib, artifact format mismatch, wrong
+        # scikit-learn version - must abort startup. Re-raised as one typed
+        # error so the cause is obvious in the boot log instead of surfacing
+        # later as a 500 on the first request.
+        raise ModelLoadError(
+            f"CineScope cannot start: the recommendation model at '{artifact}' "
+            f"failed to load ({type(error).__name__}: {error}). "
             f"Rebuild it with: python -m src.models.recommender build"
         ) from error
 
@@ -82,6 +116,9 @@ async def lifespan(app: FastAPI):
         "Model ready: %d movies, config %r, strategy %s, weights %s",
         model.n_movies, CONFIG_NAME, SCORING_STRATEGY, model.weights,
     )
+    logger.info("CORS origins: %s", ", ".join(allowed_origins()))
+    if allowed_origin_regex():
+        logger.info("CORS origin regex: %s", allowed_origin_regex())
     if app.state.cast_service.n_movies:
         logger.info(
             "Cast metadata ready: %d movies with credits.",
@@ -120,17 +157,19 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-]
+# Localhost stays the default so `npm run dev` works with no configuration;
+# a deployed frontend is added through CORS_ALLOW_ORIGINS. Preflight requests
+# are answered by the middleware itself, before any route is matched.
+ALLOWED_ORIGINS = allowed_origins()
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
+    allow_origin_regex=allowed_origin_regex(),
     allow_credentials=False,
     allow_methods=["GET", "OPTIONS"],
     allow_headers=["Accept", "Content-Type"],
+    max_age=600,
 )
 
 app.include_router(recommendations_router)
